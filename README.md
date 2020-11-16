@@ -1,4 +1,4 @@
-#Opis projektu
+# Opis projektu
 
 Gra turowa w kółko i krzyżyk z interfejsem dla graczy.
 
