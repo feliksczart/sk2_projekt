@@ -14,8 +14,6 @@ W przypadku remisu w głosowaniu algorytm umieści symbol w losowo wybranym polu
 Gracze mogą dołączać do rozgrywki w dowolnym momencie gry i nie mogą wybrać zespołu, do którego dołączają. Program przydzieli ich automatycznie. 
 Jeśli gracz ulegnie awarii, gra jest kontynuowana bez niego. Jeśli podczas rozgrywki 1vs1 jeden z graczy ulegnie awarii, 
 to w tym przypadku przy głosowaniu w drużynie bez graczy każde wolne pole będzie miało 0 głosów i serwer umieści symbol na losowo wybranym polu. 
-Jeśli na serwerze podczas trwającej rozgrywki nie pozostanie żaden prawdziwy gracz, to serwer dokończy rozgrywkę, grając sam ze sobą 
-i po zakończeniu trwającej partii będzie oczekiwał na przynajmniej 2 graczy.
 
 Gdy któraś z drużyn stworzy linię trzech krzyżyków lub trzech kółek, to zwycięża. Gdy wszystkie pola są zajęte i nie zostanie utworzona linia, 
 gra kończy się remisem. Jeśli rozgrywka się zakończy, przesyłamy o tym informację do klientów i serwer stworzy drużyny na nowo, 
