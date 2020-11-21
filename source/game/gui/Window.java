@@ -1,6 +1,7 @@
 package game.gui;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class Window extends JFrame {
 
@@ -8,10 +9,11 @@ public class Window extends JFrame {
 
     public Window(String title, int width, int height){
         super(title);
-        setSize(width,height);
+        setResizable(false);
+        getContentPane().setPreferredSize(new Dimension(width,height));
+        pack();
         setVisible(true);
         setLocationRelativeTo(null);
-        setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }
