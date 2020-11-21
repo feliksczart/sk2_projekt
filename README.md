@@ -20,3 +20,6 @@ i po zakończeniu trwającej partii będzie oczekiwał na przynajmniej 2 graczy.
 Gdy któraś z drużyn stworzy linię trzech krzyżyków lub trzech kółek, to zwycięża. Gdy wszystkie pola są zajęte i nie zostanie utworzona linia, 
 gra kończy się remisem. Jeśli rozgrywka się zakończy, przesyłamy o tym informację do klientów i serwer stworzy drużyny na nowo, 
 losowo przydzielając jej członków i kolejność wykonywania ruchu drużyn.
+
+Program gwarantuje również wsparcie dla dowolnej liczby gier na serwerze i automatyczne zamykanie gier,
+w których w jednej z drużyn odłączą się wszyscy gracze.
