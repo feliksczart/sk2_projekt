@@ -5,17 +5,15 @@ import res.Resources;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class GameWindow extends JPanel {
 
     private static final long serialVersionUID = -5812109375780198918L;
 
-    private Game game;
+    public Game game;
     public GameWindow(Game game){
         this.game = game;
-        addMouseListener(new Input());
+        addMouseListener(new Input(this));
     }
 
     @Override
@@ -42,14 +40,4 @@ public class GameWindow extends JPanel {
         }
     }
 
-    public class Input extends MouseAdapter {
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-
-            if (e.getButton() == MouseEvent.BUTTON1){
-                game.inputRecieved(e.getX()/Game.FIELD_WIDTH,e.getY()/Game.FIELD_HEIGHT);
-            }
-        }
-    }
 }

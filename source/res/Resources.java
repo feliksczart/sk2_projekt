@@ -11,8 +11,8 @@ public class Resources {
 
     static {
         symbols = new BufferedImage[2];
-        symbols[0] = loadImage("C:/Users/czart/Desktop/Studia/sk2/sk2_projekt/resources/o.png");
-        symbols[1] = loadImage("C:/Users/czart/Desktop/Studia/sk2/sk2_projekt/resources/x.png");
+        symbols[0] = loadImage("resources/o.png");
+        symbols[1] = loadImage("resources/x.png");
     }
 
     private static BufferedImage loadImage(String path){
