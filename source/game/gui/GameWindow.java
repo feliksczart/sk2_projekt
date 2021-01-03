@@ -22,10 +22,14 @@ public class GameWindow extends JPanel {
 
         Graphics2D g2D = (Graphics2D) g;
         g2D.setStroke(new BasicStroke(10));
-
+        
+        int actualX = 0;
         for (int x = Game.FIELD_WIDTH; x <= 2*Game.FIELD_WIDTH; x+= Game.FIELD_WIDTH){
             g2D.drawLine(x,0,x,Game.HEIGHT);
+            actualX = x;
         }
+        actualX += Game.FIELD_WIDTH;
+        g2D.drawLine(actualX,0,actualX,Game.HEIGHT);
         for (int y = Game.FIELD_HEIGHT; y <= 2*Game.FIELD_HEIGHT; y += Game.FIELD_HEIGHT){
             g2D.drawLine(0,y,Game.WIDTH-300,y);
         }
@@ -38,6 +42,12 @@ public class GameWindow extends JPanel {
                 }
             }
         }
+    }
+
+    @Override
+    protected void paintComponent(Graphics g){
+        super.paintComponent(g);
+        g.drawString("Informations about the game", Game.WIDTH - 200,30);
     }
 
 }

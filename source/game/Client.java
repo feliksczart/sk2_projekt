@@ -15,6 +15,7 @@ public class Client extends Game{
     public Client() {
         super(Game.PLAYER_X);
         try {
+            //socket = new Socket("localhost", Game.PORT);
             socket = new Socket("127.0.0.1", 1111);
             connection = new Connection(this,socket);
         } catch (IOException e) {
