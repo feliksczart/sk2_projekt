@@ -1,0 +1,42 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/mister_hz/sharaga/sk2/sk2_projekt/server/server.cpp
+thread
+-
+netdb.h
+-
+fcntl.h
+-
+unistd.h
+-
+cstdio
+-
+cerrno
+-
+cstring
+-
+sys/socket.h
+-
+netinet/in.h
+-
+arpa/inet.h
+-
+vector
+-
+pthread.h
+-
+csignal
+-
+algorithm
+-
+poll.h
+-
+error.h
+-
+

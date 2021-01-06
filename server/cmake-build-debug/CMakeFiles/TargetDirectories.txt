@@ -1,0 +1,3 @@
+/home/mister_hz/sharaga/sk2/sk2_projekt/server/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/mister_hz/sharaga/sk2/sk2_projekt/server/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/mister_hz/sharaga/sk2/sk2_projekt/server/cmake-build-debug/CMakeFiles/server.dir
