@@ -14,10 +14,12 @@
 #include <algorithm>
 #include <poll.h>
 #include <error.h>
+#include "Game.h"
 
 int new_client = 0;
 std::vector<int> descriptors;
 pollfd* poll_array;
+Game* game;
 int server_socket_descriptor;
 
 void remove_connection(int fd) {
@@ -124,9 +126,15 @@ int init() {
     return server_socket_descriptor;
 }
 
+void create_game() {
+    game = new Game;
+}
+
 int main(int argc, char** argv) {
 
 	server_socket_descriptor = init();
+
+	create_game();
 
 	pthread_t accept_t;
 	pthread_create(&accept_t, nullptr, accept_thread, nullptr);

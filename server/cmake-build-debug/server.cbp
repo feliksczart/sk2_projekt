@@ -82,6 +82,12 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/home/mister_hz/sharaga/sk2/sk2_projekt/server/Game.cpp">
+			<Option target="server"/>
+		</Unit>
+		<Unit filename="/home/mister_hz/sharaga/sk2/sk2_projekt/server/Game.h">
+			<Option target="server"/>
+		</Unit>
 		<Unit filename="/home/mister_hz/sharaga/sk2/sk2_projekt/server/server.cpp">
 			<Option target="server"/>
 		</Unit>

@@ -143,6 +143,33 @@ server/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/build
 .PHONY : server/fast
 
+Game.o: Game.cpp.o
+
+.PHONY : Game.o
+
+# target to build an object file
+Game.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/Game.cpp.o
+.PHONY : Game.cpp.o
+
+Game.i: Game.cpp.i
+
+.PHONY : Game.i
+
+# target to preprocess a source file
+Game.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/Game.cpp.i
+.PHONY : Game.cpp.i
+
+Game.s: Game.cpp.s
+
+.PHONY : Game.s
+
+# target to generate assembly for a file
+Game.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/Game.cpp.s
+.PHONY : Game.cpp.s
+
 server.o: server.cpp.o
 
 .PHONY : server.o
@@ -179,6 +206,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... server"
+	@echo "... Game.o"
+	@echo "... Game.i"
+	@echo "... Game.s"
 	@echo "... server.o"
 	@echo "... server.i"
 	@echo "... server.s"

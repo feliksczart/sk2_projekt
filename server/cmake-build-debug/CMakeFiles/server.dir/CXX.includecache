@@ -6,6 +6,10 @@
 
 #IncludeRegexTransform: 
 
+/home/mister_hz/sharaga/sk2/sk2_projekt/server/Game.h
+vector
+-
+
 /home/mister_hz/sharaga/sk2/sk2_projekt/server/server.cpp
 thread
 -
@@ -39,4 +43,6 @@ poll.h
 -
 error.h
 -
+Game.h
+/home/mister_hz/sharaga/sk2/sk2_projekt/server/Game.h
 
