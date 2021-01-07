@@ -88,7 +88,16 @@
 		<Unit filename="/home/mister_hz/sharaga/sk2/sk2_projekt/server/Game.h">
 			<Option target="server"/>
 		</Unit>
+		<Unit filename="/home/mister_hz/sharaga/sk2/sk2_projekt/server/GameManager.cpp">
+			<Option target="server"/>
+		</Unit>
+		<Unit filename="/home/mister_hz/sharaga/sk2/sk2_projekt/server/GameManager.h">
+			<Option target="server"/>
+		</Unit>
 		<Unit filename="/home/mister_hz/sharaga/sk2/sk2_projekt/server/server.cpp">
+			<Option target="server"/>
+		</Unit>
+		<Unit filename="/home/mister_hz/sharaga/sk2/sk2_projekt/server/server.h">
 			<Option target="server"/>
 		</Unit>
 		<Unit filename="/home/mister_hz/sharaga/sk2/sk2_projekt/server/CMakeLists.txt">

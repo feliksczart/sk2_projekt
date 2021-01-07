@@ -15,53 +15,82 @@
 #include <poll.h>
 #include <error.h>
 #include "Game.h"
+#include "GameManager.h"
 
-int new_client = 0;
-std::vector<int> descriptors;
+std::vector<int> clients;
 pollfd* poll_array;
-Game* game;
 int server_socket_descriptor;
-
-void remove_connection(int fd) {
-    descriptors.erase(std::remove(descriptors.begin(), descriptors.end(), fd), descriptors.end());
-    shutdown(fd, SHUT_RDWR);
-    close(fd);
-}
+GameManager* game_manager;
+pthread_mutex_t poll_array_mutex = PTHREAD_MUTEX_INITIALIZER;
+std::vector<std::pair<int, std::string>*> messages;
 
 void update_poll_array() {
     delete poll_array;
-    poll_array = (pollfd*) malloc(sizeof(pollfd) * descriptors.size());
-    int s = descriptors.size();
+    poll_array = nullptr;
+    poll_array = (pollfd *) malloc(sizeof(pollfd) * clients.size());
+    int s = clients.size();
     for(int i = 0; i < s; ++i) {
-        poll_array[i].fd = descriptors[i];
-        poll_array[i].events = (POLLIN | POLLOUT | POLLRDHUP | POLLHUP);
+        poll_array[i].fd = clients[i];
+        poll_array[i].events = (POLLIN | POLLOUT | POLLRDHUP);
     }
-    printf("created poll_array with %d elements\n", s);
+//    printf("created poll_array with %d elements\n", s);
+}
+
+void add_connection(int client) {
+    clients.push_back(client);
+    game_manager->add_player(client);
+}
+
+void remove_connection(int client) {
+    clients.erase(std::remove(clients.begin(), clients.end(), client), clients.end());
+    game_manager->remove_player(client);
+    shutdown(client, SHUT_RDWR);
+    close(client);
+}
+
+void add_message(int client, const std::string& msg) {
+    auto* p = new std::pair<int, std::string>(client, msg);
+    messages.emplace_back(p);
+}
+
+void send_message(int client) {
+    for(auto p : messages) {
+        if(p->first == client) {
+            std::string& m = p->second;
+            const char* cm = m.c_str();
+            write(client, cm, strlen(cm));
+            messages.erase(std::remove(messages.begin(), messages.end(), p), messages.end());
+            delete p;
+        }
+    }
 }
 
 [[noreturn]] void* poll_thread(void* v) {
     char buf[1024];
 
     while(true) {
-        int ready = poll(poll_array, descriptors.size(), 250);
-        if(ready == -1) {
+        int ready = poll(poll_array, clients.size(), 0);
+        if (ready == -1) {
             error(1, errno, "poll failed");
-            continue;
-        } else if(ready == 0) {
-            continue;
         }
-        for(int i = 0; i < descriptors.size(); i++) {
-            int fd = poll_array[i].fd;
-            if(poll_array[i].revents & (POLLRDHUP | POLLHUP | POLLERR)) {
-                remove_connection(fd);
-                update_poll_array();
-                printf("bye %d\n", fd);
+        for (int i = 0; i < clients.size(); i++) {
+            int client = poll_array[i].fd;
+            if (poll_array[i].revents & (POLLRDHUP | POLLHUP | POLLERR)) {
+                remove_connection(client);
+                printf("bye %d\n", client);
             } else if(poll_array[i].revents & (POLLIN)) {
-                int r = read(fd, buf, 1024);
-                printf("%s", buf);
+                int r = read(client, buf, 1024);
+                buf[strcspn(buf, "\n")] = 0;
+                if(strcmp("", buf) != 0) {
+                    printf("%d sent %s\n", client, buf);
+                    game_manager->execute_command(client, std::string(buf));
+                }
                 strncpy(buf, "\0", sizeof(buf));
+            } else if(poll_array[i].revents & POLLOUT) {
+                send_message(client);
             }
         }
+        update_poll_array();
     }
 }
 
@@ -69,19 +98,20 @@ void update_poll_array() {
     while(true) {
         sockaddr_in clientAddr{};
         socklen_t clientAddrLen = sizeof(clientAddr);
-        int clientFd = accept(server_socket_descriptor, (sockaddr*) &clientAddr, &clientAddrLen);
+        int client = accept(server_socket_descriptor, (sockaddr*) &clientAddr, &clientAddrLen);
 
-        if(clientFd == -1){
+        if(client == -1){
             perror("accept failed");
             continue;
         }
-        descriptors.push_back(clientFd);
-        update_poll_array();
+        add_connection(client);
         printf("Connection from %s:%hu\n", inet_ntoa(clientAddr.sin_addr), ntohs(clientAddr.sin_port));
+        printf("fd: %d\n", client);
     }
 }
 
 int init() {
+
     int serverPort = 1111;
     int bind_result;
     int listen_result;
@@ -123,18 +153,17 @@ int init() {
 
     poll_array = (pollfd*) malloc(sizeof(pollfd));
 
-    return server_socket_descriptor;
-}
+    game_manager = new GameManager;
 
-void create_game() {
-    game = new Game;
+//    pthread_mutex_init(&poll_array_mutex, NULL);
+
+    return server_socket_descriptor;
+
 }
 
 int main(int argc, char** argv) {
 
 	server_socket_descriptor = init();
-
-	create_game();
 
 	pthread_t accept_t;
 	pthread_create(&accept_t, nullptr, accept_thread, nullptr);

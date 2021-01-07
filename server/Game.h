@@ -21,14 +21,18 @@ private:
     const int * get_win_position();
 
 public:
-    const static int MAX_PLAYERS = 10;
+    const static int MAX_PLAYERS_IN_TEAM = 10;
+
     int get_player_count();
     bool is_full();
-    void add_player(int player);
-
+    bool is_empty();
+    char add_player(int player);
+    void remove_player(int player);
     bool someone_won();
     char get_winner();
     void place(int position, char c);
+    bool is_player_here(int player);
+    char get_team(int player);
 };
 
 
