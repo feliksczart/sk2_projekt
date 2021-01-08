@@ -1,0 +1,3 @@
+/home/feliks/Desktop/Studia/sk2_projekt/server/CMakeFiles/rebuild_cache.dir
+/home/feliks/Desktop/Studia/sk2_projekt/server/CMakeFiles/edit_cache.dir
+/home/feliks/Desktop/Studia/sk2_projekt/server/CMakeFiles/server.dir
