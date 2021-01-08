@@ -44,7 +44,7 @@ void add_connection(int client) {
 
 void remove_connection(int client) {
     clients.erase(std::remove(clients.begin(), clients.end(), client), clients.end());
-    game_manager->remove_player(client);
+    game_manager->remove_player(client, false);
     shutdown(client, SHUT_RDWR);
     close(client);
 }

@@ -23,7 +23,14 @@ char Game::add_player(int player) {
         cross_team.push_back(player);
         team = 'x';
     }
+    game_manager->unicast(player, "joined " + std::string(1, team));
     game_manager->unicast(player, "turn " + std::string(1, turn));
+    for(int i = 0; i < 9; i++) {
+        char c = field[i];
+        if(c != '\0') {
+            game_manager->unicast(player, "placed " + std::to_string(i) + " " + std::string(1, c));
+        }
+    }
     return team;
 }
 
@@ -93,7 +100,7 @@ bool Game::is_player_here(int player) {
     return in_cross || in_circle;
 }
 
-void Game::remove_player(int player) {
+void Game::remove_player(int player, bool team_empty_disconnection) {
     bool in_cross = std::find(cross_team.begin(), cross_team.end(), player) != cross_team.end();
     if(in_cross) {
         cross_team.erase(std::remove(cross_team.begin(), cross_team.end(), player), cross_team.end());
@@ -101,6 +108,9 @@ void Game::remove_player(int player) {
     } else {
         circle_team.erase(std::remove(circle_team.begin(), circle_team.end(), player), circle_team.end());
         circle_team.shrink_to_fit();
+    }
+    if(team_empty_disconnection) {
+        game_manager->unicast(player, "disconnected");
     }
 }
 
@@ -121,7 +131,9 @@ void Game::reset_game() {
         i = '\0';
     }
     turns_made = 0;
-    next_turn();
+    turn = rand() % 2 ? 'x' : 'o';
+    game_manager->multicast(&cross_team, "turn " + std::string(1, turn));
+    game_manager->multicast(&circle_team, "turn " + std::string(1, turn));
 }
 
 int Game::process_vote(int player, int position) {
@@ -149,6 +161,36 @@ void Game::next_turn() {
     turn = turn == 'x' ? 'o' : 'x';
     game_manager->multicast(&cross_team, "turn " + std::string(1, turn));
     game_manager->multicast(&circle_team, "turn " + std::string(1, turn));
+}
+
+bool Game::is_circle_team_empty() {
+    return circle_team.empty();
+}
+
+bool Game::is_cross_team_empty() {
+    return cross_team.empty();
+}
+
+void Game::reconnect_team(char team) {
+    if(team == 'x') {
+        reconnect_team(&cross_team);
+    } else {
+        reconnect_team(&circle_team);
+    }
+}
+
+void Game::reconnect_team(const std::vector<int>* team) {
+    auto* v = new std::vector<int>;
+    for(auto p : *team) {
+        bool player_present = game_manager->remove_player(p, true); //TODO add only present players
+        if(player_present) {
+            v->push_back(p);
+        }
+    }
+    for(auto p : *v) {
+        game_manager->add_player(p);
+    }
+    delete v;
 }
 
 

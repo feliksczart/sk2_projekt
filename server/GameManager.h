@@ -23,7 +23,6 @@ public:
     Game* find_game_by_player(int player);
 
     void add_player(int player);
-    void remove_player(int player);
 
     void execute_command(int player, const std::string& command);
     static std::vector<std::string> split(const std::string& str, const std::string& delim);
@@ -32,6 +31,8 @@ public:
     void multicast(std::vector<int> *receivers, const std::string &msg);
 
     void unicast(int receiver, const std::string &msg);
+
+    bool remove_player(int player, bool team_disconnected);
 };
 
 

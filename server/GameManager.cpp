@@ -20,8 +20,6 @@ void GameManager::add_player(int player) {
         to_be_joined = get_free_game();
     }
     char team = to_be_joined->add_player(player);
-    std::string msg = "joined " + std::string(1, team);
-    add_message(player, msg);
     players.push_back(player);
 }
 
@@ -39,16 +37,27 @@ Game *GameManager::get_free_game() {
     return nullptr;
 }
 
-void GameManager::remove_player(int player) {
+bool GameManager::remove_player(int player, bool team_disconnected) {
     Game* g = find_game_by_player(player);
     if(g == nullptr) {
-        return;
+        return false;
     }
-    g->remove_player(player);
-    if(g->is_empty()) {
-        remove_game(g);
-    }
+
+    g->remove_player(player, false);
     players.erase(std::remove(players.begin(), players.end(), player), players.end());
+    bool circle_e = g->is_circle_team_empty();
+    bool cross_e = g->is_cross_team_empty();
+
+    if((circle_e || cross_e) && !team_disconnected) {
+        if(circle_e) {
+            g->reconnect_team('x');
+        } else {
+            g->reconnect_team('o');
+        }
+
+    }
+    if(g->is_empty()) remove_game(g);
+    return true;
 }
 
 Game *GameManager::find_game_by_player(int player) {

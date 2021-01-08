@@ -26,13 +26,12 @@ private:
 
 public:
 
-    const static int MAX_PLAYERS_IN_TEAM = 1;
+    const static int MAX_PLAYERS_IN_TEAM = 10;
 
     int get_player_count();
     bool is_full();
     bool is_empty();
     char add_player(int player);
-    void remove_player(int player);
     bool someone_won();
     char get_winner();
     int place(int position, char c);
@@ -43,8 +42,15 @@ public:
     std::vector<int>* get_players();
     char get_turn() const;
     void next_turn();
+    bool is_cross_team_empty();
+    bool is_circle_team_empty();
+    void reconnect_team(char team);
 
     Game(GameManager *pManager);
+
+    void remove_player(int player, bool team_empty_disconnection);
+
+    void reconnect_team(const std::vector<int> *team);
 };
 
 
