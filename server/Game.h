@@ -41,7 +41,8 @@ public:
     void reset_game();
     int process_vote(int player, int position);
     std::vector<int>* get_players();
-    char get_turn();
+    char get_turn() const;
+    void next_turn();
 
     Game(GameManager *pManager);
 };

@@ -23,6 +23,7 @@ char Game::add_player(int player) {
         cross_team.push_back(player);
         team = 'x';
     }
+    game_manager->unicast(player, "turn " + std::string(1, turn));
     return team;
 }
 
@@ -49,20 +50,40 @@ char Game::get_winner() {
 }
 
 int Game::place(int position, char c) {
+
+    // >0 - ok
+    //  0 - end of game
+    // -1 - cell already occupied
+    // -2 - illegal move
+    // -3 - wrong turn
+
+    if(c != turn) {
+        return -3;
+    }
+
     if(position > 8 || position < 0) {
         return -2;
     }
+
     if(field[position] == '\0') {
         field[position] = c;
         turns_made++;
     } else if(field[position] != '\0') {
-        return 0;
+        return -1;
     }
+
     if(turns_made >= 5 && someone_won()) {
         game_manager->multicast(get_players(), "winner " + std::string(1, get_winner()));
         reset_game();
-        return -1;
+        return 0;
     }
+
+    if(turns_made == 9 && !someone_won()) {
+        game_manager->multicast(get_players(), "winner -");
+        reset_game();
+        return 0;
+    }
+    next_turn();
     return turns_made;
 }
 
@@ -100,6 +121,7 @@ void Game::reset_game() {
         i = '\0';
     }
     turns_made = 0;
+    next_turn();
 }
 
 int Game::process_vote(int player, int position) {
@@ -109,6 +131,7 @@ int Game::process_vote(int player, int position) {
 
 Game::Game(GameManager *pManager) {
     game_manager = pManager;
+    reset_game();
 }
 
 std::vector<int> *Game::get_players() {
@@ -118,8 +141,14 @@ std::vector<int> *Game::get_players() {
     return pl;
 }
 
-char Game::get_turn() {
+char Game::get_turn() const {
     return turn;
+}
+
+void Game::next_turn() {
+    turn = turn == 'x' ? 'o' : 'x';
+    game_manager->multicast(&cross_team, "turn " + std::string(1, turn));
+    game_manager->multicast(&circle_team, "turn " + std::string(1, turn));
 }
 
 

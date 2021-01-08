@@ -76,7 +76,7 @@ void GameManager::execute_command(int player, const std::string& command) {
         auto pl = game->get_players();
         if(result > 0) {
             multicast(pl, msg);
-        } else if(result == -2) {
+        } else if(result < 0) {
             unicast(player, "illegal_move");
         }
         std::cout << msg << "\n";
