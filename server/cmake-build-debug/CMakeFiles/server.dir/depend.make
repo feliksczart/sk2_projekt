@@ -3,6 +3,7 @@
 
 CMakeFiles/server.dir/Game.cpp.o: ../Game.cpp
 CMakeFiles/server.dir/Game.cpp.o: ../Game.h
+CMakeFiles/server.dir/Game.cpp.o: ../GameManager.h
 
 CMakeFiles/server.dir/GameManager.cpp.o: ../Game.h
 CMakeFiles/server.dir/GameManager.cpp.o: ../GameManager.cpp

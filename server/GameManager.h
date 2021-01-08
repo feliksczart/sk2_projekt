@@ -8,6 +8,8 @@
 
 #include "Game.h"
 
+class Game;
+
 class GameManager {
 private:
     std::vector<Game*> games;
@@ -25,9 +27,11 @@ public:
 
     void execute_command(int player, const std::string& command);
     static std::vector<std::string> split(const std::string& str, const std::string& delim);
-
-    void multicast(std::vector<int>& receivers, const std::string& msg);
     void broadcast(const std::string& msg);
+
+    void multicast(std::vector<int> *receivers, const std::string &msg);
+
+    void unicast(int receiver, const std::string &msg);
 };
 
 

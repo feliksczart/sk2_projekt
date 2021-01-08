@@ -14,7 +14,7 @@ bool GameManager::games_exist() {
 void GameManager::add_player(int player) {
     Game* to_be_joined;
     if(all_games_full()) {
-        to_be_joined = new Game;
+        to_be_joined = new Game(this);
         games.push_back(to_be_joined);
     } else {
         to_be_joined = get_free_game();
@@ -71,9 +71,14 @@ void GameManager::execute_command(int player, const std::string& command) {
         int position = std::stoi(v.at(1));
         Game* game = find_game_by_player(player);
         char c = game->get_team(player);
-        game->place(position, c);
+        int result = game->process_vote(player, position);
         std::string msg = std::to_string(position) + " " + std::string(1, c);
-        broadcast(msg);
+        auto pl = game->get_players();
+        if(result > 0) {
+            multicast(pl, msg);
+        } else if(result == -2) {
+            unicast(player, "illegal_move");
+        }
         std::cout << msg << "\n";
     }
 }
@@ -93,12 +98,16 @@ std::vector<std::string> GameManager::split(const std::string& str, const std::s
     return tokens;
 }
 
-void GameManager::multicast(std::vector<int> &receivers, const std::string& msg) {
-    for(auto r : receivers) add_message(r, msg);
+void GameManager::multicast(std::vector<int>* receivers, const std::string& msg) {
+    for(auto r : *receivers) add_message(r, msg);
 }
 
 void GameManager::broadcast(const std::string& msg) {
-    multicast(players, msg);
+    multicast(&players, msg);
+}
+
+void GameManager::unicast(int receiver, const std::string& msg) {
+    add_message(receiver, msg);
 }
 
 

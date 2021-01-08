@@ -6,9 +6,17 @@
 
 #IncludeRegexTransform: 
 
+/home/mister_hz/sharaga/sk2/sk2_projekt/server/Game.cpp
+algorithm
+-
+Game.h
+/home/mister_hz/sharaga/sk2/sk2_projekt/server/Game.h
+
 /home/mister_hz/sharaga/sk2/sk2_projekt/server/Game.h
 vector
 -
+GameManager.h
+/home/mister_hz/sharaga/sk2/sk2_projekt/server/GameManager.h
 
 /home/mister_hz/sharaga/sk2/sk2_projekt/server/GameManager.cpp
 algorithm
@@ -23,6 +31,44 @@ server.h
 /home/mister_hz/sharaga/sk2/sk2_projekt/server/GameManager.h
 Game.h
 /home/mister_hz/sharaga/sk2/sk2_projekt/server/Game.h
+
+/home/mister_hz/sharaga/sk2/sk2_projekt/server/server.cpp
+thread
+-
+netdb.h
+-
+fcntl.h
+-
+unistd.h
+-
+cstdio
+-
+cerrno
+-
+cstring
+-
+sys/socket.h
+-
+netinet/in.h
+-
+arpa/inet.h
+-
+vector
+-
+pthread.h
+-
+csignal
+-
+algorithm
+-
+poll.h
+-
+error.h
+-
+Game.h
+/home/mister_hz/sharaga/sk2/sk2_projekt/server/Game.h
+GameManager.h
+/home/mister_hz/sharaga/sk2/sk2_projekt/server/GameManager.h
 
 /home/mister_hz/sharaga/sk2/sk2_projekt/server/server.h
 
