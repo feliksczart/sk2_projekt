@@ -1,5 +1,6 @@
 package game;
 
+import game.gui.GameWindow;
 import game.packets.ClientPlayPacket;
 import game.packets.EndGamePacket;
 import game.packets.UpdatePacket;
@@ -17,6 +18,7 @@ public class Client extends Game{
         //socket = new Socket("localhost", Game.PORT);
 //            socket = new Socket("127.0.0.1", 1111);
 //            connection = new Connection(this,socket);
+        gameWindow.repaint();
     }
 
     @Override

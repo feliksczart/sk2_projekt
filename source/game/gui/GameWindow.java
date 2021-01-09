@@ -10,6 +10,7 @@ import java.awt.*;
 public class GameWindow extends JPanel {
 
     private static final long serialVersionUID = -5812109375780198918L;
+    private JPanel panel;
 
     public Game game;
     public GameWindow(Game game){
@@ -23,6 +24,7 @@ public class GameWindow extends JPanel {
 
         Graphics2D g2D = (Graphics2D) g;
         g2D.setStroke(new BasicStroke(10));
+        g2D.setColor(Color.WHITE);
         
         int actualX = 0;
         for (int x = Game.FIELD_WIDTH; x <= 2*Game.FIELD_WIDTH; x+= Game.FIELD_WIDTH){
@@ -48,9 +50,9 @@ public class GameWindow extends JPanel {
     @Override
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
-        g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+        g.setFont(new Font("Arial", Font.PLAIN, 20));
+        g.setColor(Color.WHITE);
         g.drawString("Team: "+ Messenger.team, Game.WIDTH - 200,30);
         g.drawString("Turn: "+ Messenger.turn, Game.WIDTH - 200,60);
     }
-
 }

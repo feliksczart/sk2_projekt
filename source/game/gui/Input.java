@@ -2,6 +2,7 @@ package game.gui;
 
 import game.Game;
 
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -11,6 +12,7 @@ public class Input extends MouseAdapter {
 
     public Input(GameWindow gameWindow) {
         this.gameWindow = gameWindow;
+        this.gameWindow.setBackground(Color.black);
     }
 
     @Override

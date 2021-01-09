@@ -31,7 +31,7 @@ public class Messenger {
                     team = 'O';
                 }
                 else if(info.equals("turn x")){
-                    turn = 'O';
+                    turn = 'X';
                 }
                 else if(info.equals("turn o")){
                     turn = 'O';
