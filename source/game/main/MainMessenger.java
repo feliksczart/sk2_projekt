@@ -1,13 +1,16 @@
 package game.main;
 
 import game.Messenger;
+
+import javax.swing.*;
 import java.io.IOException;
 
 public class MainMessenger {
 
     public static void main(String[] args) throws IOException {
 
-        Messenger messenger = new Messenger(1111);
+        int port = Integer.parseInt(JOptionPane.showInputDialog("Choose port"));
+        Messenger messenger = new Messenger(port);
         new Thread(() -> {
             try {
                 messenger.read();
