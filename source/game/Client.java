@@ -10,14 +10,14 @@ import java.net.Socket;
 public class Client extends Game{
 
     private Socket socket;
-    private Connection connection;
+//    private Connection connection;
 
     public Client() {
         super(Game.PLAYER_X);
         try {
             //socket = new Socket("localhost", Game.PORT);
             socket = new Socket("127.0.0.1", 1111);
-            connection = new Connection(this,socket);
+//            connection = new Connection(this,socket);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -27,7 +27,7 @@ public class Client extends Game{
     public void inputRecieved(int x, int y) {
 
         if (isMyTurn()){
-            connection.sendPacket(new ClientPlayPacket(x,y));
+//            connection.sendPacket(new ClientPlayPacket(x,y));
         }
     }
 
@@ -49,7 +49,7 @@ public class Client extends Game{
     @Override
     public void close() {
         try {
-            connection.close();
+//            connection.close();
             socket.close();
         } catch (IOException e) {
             e.printStackTrace();

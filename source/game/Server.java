@@ -13,14 +13,14 @@ public class Server extends Game{
     private ServerSocket serverSocket;
     private Socket socket;
 
-    private Connection connection;
+//    private Connection connection;
 
     public Server(){
         super(Game.PLAYER_O);
         try {
             serverSocket = new ServerSocket(Game.PORT);
             socket = serverSocket.accept();
-            connection = new Connection(this,socket);
+//            connection = new Connection(this,socket);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -53,7 +53,7 @@ public class Server extends Game{
             }
         }
 
-        connection.sendPacket(new UpdatePacket(fields, currentPlayer));
+//        connection.sendPacket(new UpdatePacket(fields, currentPlayer));
 
         gameWindow.repaint();
 
@@ -78,7 +78,7 @@ public class Server extends Game{
 
     private void endGame(int winner){
         showWinner(winner);
-        connection.sendPacket(new EndGamePacket(winner));
+//        connection.sendPacket(new EndGamePacket(winner));
     }
 
     private int checkWin(){
@@ -132,7 +132,7 @@ public class Server extends Game{
     @Override
     public void close() {
         try {
-            connection.close();
+//            connection.close();
             serverSocket.close();
         } catch (IOException e) {
             e.printStackTrace();

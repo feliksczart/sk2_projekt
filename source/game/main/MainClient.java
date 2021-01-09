@@ -8,12 +8,8 @@ import javax.swing.*;
 public class MainClient {
 
     public static void main(String[] args){
-        int choice = Integer.parseInt(JOptionPane.showInputDialog("1 for server | 2 for client"));
+        //int choice = Integer.parseInt(JOptionPane.showInputDialog("1 for server | 2 for client"));
 
-        if (choice == 1){
-            new Server();
-        } else if (choice == 2){
-            new Client();
-        }
+        new Client();
     }
 }
