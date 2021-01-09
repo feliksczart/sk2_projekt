@@ -23,7 +23,7 @@ int server_socket_descriptor;
 GameManager* game_manager;
 pthread_mutex_t poll_array_mutex = PTHREAD_MUTEX_INITIALIZER;
 std::vector<std::pair<int, std::string>*> messages;
-int nc_mode = 0;
+int nc_mode = 1;
 
 void update_poll_array() {
     delete poll_array;

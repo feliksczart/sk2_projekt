@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/feliks/Desktop/Studia/sk2_projekt/server
+CMAKE_SOURCE_DIR = /home/mister_hz/sharaga/sk2/sk2_projekt/server
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/feliks/Desktop/Studia/sk2_projekt/server
+CMAKE_BINARY_DIR = /home/mister_hz/sharaga/sk2/sk2_projekt/server
 
 # Include any dependencies generated for this target.
 include CMakeFiles/server.dir/depend.make
@@ -59,42 +59,42 @@ include CMakeFiles/server.dir/flags.make
 
 CMakeFiles/server.dir/server.cpp.o: CMakeFiles/server.dir/flags.make
 CMakeFiles/server.dir/server.cpp.o: server.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/feliks/Desktop/Studia/sk2_projekt/server/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/server.dir/server.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/server.dir/server.cpp.o -c /home/feliks/Desktop/Studia/sk2_projekt/server/server.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mister_hz/sharaga/sk2/sk2_projekt/server/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/server.dir/server.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/server.dir/server.cpp.o -c /home/mister_hz/sharaga/sk2/sk2_projekt/server/server.cpp
 
 CMakeFiles/server.dir/server.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/server.dir/server.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/feliks/Desktop/Studia/sk2_projekt/server/server.cpp > CMakeFiles/server.dir/server.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mister_hz/sharaga/sk2/sk2_projekt/server/server.cpp > CMakeFiles/server.dir/server.cpp.i
 
 CMakeFiles/server.dir/server.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/server.dir/server.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/feliks/Desktop/Studia/sk2_projekt/server/server.cpp -o CMakeFiles/server.dir/server.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mister_hz/sharaga/sk2/sk2_projekt/server/server.cpp -o CMakeFiles/server.dir/server.cpp.s
 
 CMakeFiles/server.dir/Game.cpp.o: CMakeFiles/server.dir/flags.make
 CMakeFiles/server.dir/Game.cpp.o: Game.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/feliks/Desktop/Studia/sk2_projekt/server/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/server.dir/Game.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/server.dir/Game.cpp.o -c /home/feliks/Desktop/Studia/sk2_projekt/server/Game.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mister_hz/sharaga/sk2/sk2_projekt/server/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/server.dir/Game.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/server.dir/Game.cpp.o -c /home/mister_hz/sharaga/sk2/sk2_projekt/server/Game.cpp
 
 CMakeFiles/server.dir/Game.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/server.dir/Game.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/feliks/Desktop/Studia/sk2_projekt/server/Game.cpp > CMakeFiles/server.dir/Game.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mister_hz/sharaga/sk2/sk2_projekt/server/Game.cpp > CMakeFiles/server.dir/Game.cpp.i
 
 CMakeFiles/server.dir/Game.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/server.dir/Game.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/feliks/Desktop/Studia/sk2_projekt/server/Game.cpp -o CMakeFiles/server.dir/Game.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mister_hz/sharaga/sk2/sk2_projekt/server/Game.cpp -o CMakeFiles/server.dir/Game.cpp.s
 
 CMakeFiles/server.dir/GameManager.cpp.o: CMakeFiles/server.dir/flags.make
 CMakeFiles/server.dir/GameManager.cpp.o: GameManager.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/feliks/Desktop/Studia/sk2_projekt/server/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/server.dir/GameManager.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/server.dir/GameManager.cpp.o -c /home/feliks/Desktop/Studia/sk2_projekt/server/GameManager.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mister_hz/sharaga/sk2/sk2_projekt/server/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/server.dir/GameManager.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/server.dir/GameManager.cpp.o -c /home/mister_hz/sharaga/sk2/sk2_projekt/server/GameManager.cpp
 
 CMakeFiles/server.dir/GameManager.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/server.dir/GameManager.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/feliks/Desktop/Studia/sk2_projekt/server/GameManager.cpp > CMakeFiles/server.dir/GameManager.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mister_hz/sharaga/sk2/sk2_projekt/server/GameManager.cpp > CMakeFiles/server.dir/GameManager.cpp.i
 
 CMakeFiles/server.dir/GameManager.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/server.dir/GameManager.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/feliks/Desktop/Studia/sk2_projekt/server/GameManager.cpp -o CMakeFiles/server.dir/GameManager.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mister_hz/sharaga/sk2/sk2_projekt/server/GameManager.cpp -o CMakeFiles/server.dir/GameManager.cpp.s
 
 # Object files for target server
 server_OBJECTS = \
@@ -110,7 +110,7 @@ server: CMakeFiles/server.dir/Game.cpp.o
 server: CMakeFiles/server.dir/GameManager.cpp.o
 server: CMakeFiles/server.dir/build.make
 server: CMakeFiles/server.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/feliks/Desktop/Studia/sk2_projekt/server/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable server"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/mister_hz/sharaga/sk2/sk2_projekt/server/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable server"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/server.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -123,6 +123,6 @@ CMakeFiles/server.dir/clean:
 .PHONY : CMakeFiles/server.dir/clean
 
 CMakeFiles/server.dir/depend:
-	cd /home/feliks/Desktop/Studia/sk2_projekt/server && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/feliks/Desktop/Studia/sk2_projekt/server /home/feliks/Desktop/Studia/sk2_projekt/server /home/feliks/Desktop/Studia/sk2_projekt/server /home/feliks/Desktop/Studia/sk2_projekt/server /home/feliks/Desktop/Studia/sk2_projekt/server/CMakeFiles/server.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/mister_hz/sharaga/sk2/sk2_projekt/server && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/mister_hz/sharaga/sk2/sk2_projekt/server /home/mister_hz/sharaga/sk2/sk2_projekt/server /home/mister_hz/sharaga/sk2/sk2_projekt/server /home/mister_hz/sharaga/sk2/sk2_projekt/server /home/mister_hz/sharaga/sk2/sk2_projekt/server/CMakeFiles/server.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/server.dir/depend
 

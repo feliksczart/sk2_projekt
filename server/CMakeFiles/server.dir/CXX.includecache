@@ -6,33 +6,43 @@
 
 #IncludeRegexTransform: 
 
-/home/feliks/Desktop/Studia/sk2_projekt/server/Game.cpp
+/home/mister_hz/sharaga/sk2/sk2_projekt/server/Game.cpp
 algorithm
 -
 Game.h
-/home/feliks/Desktop/Studia/sk2_projekt/server/Game.h
+/home/mister_hz/sharaga/sk2/sk2_projekt/server/Game.h
 
-/home/feliks/Desktop/Studia/sk2_projekt/server/Game.h
+/home/mister_hz/sharaga/sk2/sk2_projekt/server/Game.h
 vector
 -
 GameManager.h
-/home/feliks/Desktop/Studia/sk2_projekt/server/GameManager.h
+/home/mister_hz/sharaga/sk2/sk2_projekt/server/GameManager.h
+GameRunner.h
+/home/mister_hz/sharaga/sk2/sk2_projekt/server/GameRunner.h
+string
+-
 
-/home/feliks/Desktop/Studia/sk2_projekt/server/GameManager.cpp
+/home/mister_hz/sharaga/sk2/sk2_projekt/server/GameManager.cpp
 algorithm
 -
 iostream
 -
 GameManager.h
-/home/feliks/Desktop/Studia/sk2_projekt/server/GameManager.h
+/home/mister_hz/sharaga/sk2/sk2_projekt/server/GameManager.h
 server.h
-/home/feliks/Desktop/Studia/sk2_projekt/server/server.h
+/home/mister_hz/sharaga/sk2/sk2_projekt/server/server.h
 
-/home/feliks/Desktop/Studia/sk2_projekt/server/GameManager.h
+/home/mister_hz/sharaga/sk2/sk2_projekt/server/GameManager.h
 Game.h
-/home/feliks/Desktop/Studia/sk2_projekt/server/Game.h
+/home/mister_hz/sharaga/sk2/sk2_projekt/server/Game.h
+string
+-
 
-/home/feliks/Desktop/Studia/sk2_projekt/server/server.cpp
+/home/mister_hz/sharaga/sk2/sk2_projekt/server/GameRunner.h
+Game.h
+/home/mister_hz/sharaga/sk2/sk2_projekt/server/Game.h
+
+/home/mister_hz/sharaga/sk2/sk2_projekt/server/server.cpp
 thread
 -
 netdb.h
@@ -66,9 +76,9 @@ poll.h
 error.h
 -
 Game.h
-/home/feliks/Desktop/Studia/sk2_projekt/server/Game.h
+/home/mister_hz/sharaga/sk2/sk2_projekt/server/Game.h
 GameManager.h
-/home/feliks/Desktop/Studia/sk2_projekt/server/GameManager.h
+/home/mister_hz/sharaga/sk2/sk2_projekt/server/GameManager.h
 
-/home/feliks/Desktop/Studia/sk2_projekt/server/server.h
+/home/mister_hz/sharaga/sk2/sk2_projekt/server/server.h
 
