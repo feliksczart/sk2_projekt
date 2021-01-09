@@ -30,6 +30,7 @@ private:
     constexpr const static int NO_WINNER_POSITION[] = {0, 0, 0};
 
     const int * get_win_position();
+    static bool sort_votes(const std::pair<int, int> &a, const std::pair<int, int> &b);
 
 public:
 
@@ -61,6 +62,7 @@ public:
     void remove_player(int player, bool team_empty_disconnection);
 
     void reconnect_team(const std::vector<int> *team);
+
 };
 
 

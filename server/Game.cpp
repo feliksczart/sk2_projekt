@@ -60,14 +60,8 @@ char Game::get_winner() {
 }
 
 int Game::place(int position, char c) {
-
     int result;
-
-    // >0 - ok
-    //  0 - end of game
-    // -1 - cell already occupied
-    // -2 - illegal move
-    // -3 - wrong turn
+    bool end_of_round = false;
 
     if(field[position] == '\0') {
         field[position] = c;
@@ -76,18 +70,24 @@ int Game::place(int position, char c) {
         throw std::logic_error("field not empty");
     }
 
+
     if(turns_made >= 5 && someone_won()) {
         game_manager->multicast(get_players(), "winner " + std::string(1, get_winner()));
         reset_game();
         result = 0;
+        end_of_round = true;
     }
 
     if(turns_made == 9 && !someone_won()) {
         game_manager->multicast(get_players(), "winner -");
         reset_game();
         result = 0;
+        end_of_round = true;
     }
-    next_turn();
+    if(!end_of_round) {
+        next_turn();
+        send_to_all("placed " + std::to_string(position) + " " + std::string(1, c));
+    }
     return result;
 }
 
@@ -226,7 +226,36 @@ void Game::send_to_all(const std::string& msg) {
 }
 
 void Game::process_poll() {
+//    sort(votes.begin(), votes.end(), sort_votes);
+    int max_vote_count = -1;
+    auto* choose_from = new std::vector<int>;
 
+    for(auto* p : votes) {
+        int vote_count = p->second;
+        int position = p->first;
+        if(vote_count > max_vote_count) {
+            max_vote_count = vote_count;
+            choose_from->clear();
+            choose_from->push_back(position);
+        } else if(vote_count == max_vote_count) {
+            choose_from->push_back(position);
+        }
+    }
+
+    int size = choose_from->size();
+    int num = rand() % size;
+    int position = choose_from->at(num);
+
+    place(position, turn);
+
+    players_voted.clear();
+    votes.clear();
+    delete choose_from;
+}
+
+bool Game::sort_votes(const std::pair<int,int> &a,
+               const std::pair<int,int> &b) {
+    return (a.second > b.second);
 }
 
 

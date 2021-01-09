@@ -5,5 +5,5 @@ set(CMAKE_CXX_STANDARD 17)
 find_package(Threads)
 
 add_executable(server
-        server.cpp Game.cpp Game.h GameManager.cpp GameManager.h server.h)
+        server.cpp Game.cpp Game.h GameManager.cpp GameManager.h server.h GameRunner.h GameRunner.cpp)
 target_link_libraries( server ${CMAKE_THREAD_LIBS_INIT} )
