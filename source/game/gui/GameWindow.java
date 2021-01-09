@@ -1,6 +1,7 @@
 package game.gui;
 
 import game.Game;
+import game.Messenger;
 import res.Resources;
 
 import javax.swing.*;
@@ -39,7 +40,6 @@ public class GameWindow extends JPanel {
                 int field = game.getFields()[x][y];
                 if (field != Game.NOBODY) {
                     g2D.drawImage(Resources.symbols[field - 1], x * Game.FIELD_WIDTH, y * Game.FIELD_HEIGHT, Game.FIELD_WIDTH-10, Game.FIELD_HEIGHT-10, null);
-                    System.out.println("vote 0");
                 }
             }
         }
@@ -48,7 +48,9 @@ public class GameWindow extends JPanel {
     @Override
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
-        g.drawString("Informations about the game", Game.WIDTH - 200,30);
+        g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+        g.drawString("Team: "+ Messenger.team, Game.WIDTH - 200,30);
+        g.drawString("Turn: "+ Messenger.turn, Game.WIDTH - 200,60);
     }
 
 }

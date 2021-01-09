@@ -7,6 +7,8 @@ public class Messenger {
 
     private Socket clientSocket;
     private DataInputStream in;
+    public static char team;
+    public static char turn;
 
     public Messenger(int port) throws IOException {
         this.clientSocket = new Socket("localhost",port);
@@ -20,7 +22,20 @@ public class Messenger {
 
         while (true) {
             while (FromServer.ready()) {
-                System.out.println(FromServer.readLine());
+                String info = FromServer.readLine();
+                System.out.println(info);
+                if(info.equals("joined x")){
+                    team = 'X';
+                }
+                else if(info.equals("joined o")){
+                    team = 'O';
+                }
+                else if(info.equals("turn x")){
+                    turn = 'O';
+                }
+                else if(info.equals("turn o")){
+                    turn = 'O';
+                }
             }
         }
     }
