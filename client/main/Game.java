@@ -1,28 +1,34 @@
 package main;
 
+import serverConnection.Listener;
 import serverConnection.Messenger;
+import serverConnection.MyListener;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputMethodEvent;
+import java.awt.event.InputMethodListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import javax.swing.JButton;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 
-public class Game extends JPanel {
+public class Game extends JPanel implements MyListener {
 
     char currentPlayer = 'x';
     JButton[] buttons = new JButton[9];
     List<Integer> placed = new ArrayList<Integer>();
+
     public int port;
     public static Messenger messenger;
+    public static boolean trueIsPlace;
 
     public Game() throws IOException {
         setLayout(new GridLayout(3, 3));
@@ -54,6 +60,8 @@ public class Game extends JPanel {
                         }
                     }).start();
 
+                    trueIsPlace = Messenger.isPlace;
+
                     try {
                         TimeUnit.MICROSECONDS.sleep(10);
                     } catch (InterruptedException interruptedException) {
@@ -74,13 +82,20 @@ public class Game extends JPanel {
                         currentPlayer = 'x';
                         buttonClicked.setBackground(Color.BLACK);
                     }
+
                     displayVictor();
-
-
                 }
             });
 
             add(buttons[i]);
+        }
+    }
+
+    @Override
+    public void messageReceived() {
+        if(trueIsPlace) {
+            List<String> opponentSymbol = opponentSymbol();
+            updateTheButtons(Integer.parseInt(opponentSymbol.get(0)), opponentSymbol.get(1));
         }
     }
 
@@ -177,5 +192,12 @@ public class Game extends JPanel {
         result.add(what);
         return result;
 
+    }
+
+    private void updateTheButtons(int where, String what) {
+        buttons[where].setFont(new Font("Arial", Font.PLAIN, 100));
+        buttons[where].setForeground(Color.white);
+        buttons[where].setText(what.toUpperCase());
+        buttons[where].setBackground(Color.BLACK);
     }
 }

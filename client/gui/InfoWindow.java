@@ -15,7 +15,7 @@ public class InfoWindow extends JPanel {
         info.getContentPane().setBackground(Color.BLACK);
         info.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         info.setSize(200,600);
-        info.setVisible(true); // show the window
+        info.setVisible(true);
         info.setLocationRelativeTo(null);
         writeInfo();
     }

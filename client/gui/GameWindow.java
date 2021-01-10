@@ -14,8 +14,10 @@ public class GameWindow {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.getContentPane().setBackground(Color.BLACK);
         window.setSize(800,600);
-        window.getContentPane().add(new Game()); // adds the data
-        window.setVisible(true); // show the window
-        window.setLocationRelativeTo(null); // center the window
+        Game game = new Game();
+        window.getContentPane().add(game);
+        Game.messenger.addListener(game);
+        window.setVisible(true);
+        window.setLocationRelativeTo(null);
     }
 }

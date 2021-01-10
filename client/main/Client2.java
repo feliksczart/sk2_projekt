@@ -11,6 +11,7 @@ public class Client2 {
 
         new GameWindow();
         MainMessenger.main(args);
+//        Game.messenger.addListener(new Game());
         new InfoWindow();
     }
 
