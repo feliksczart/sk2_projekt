@@ -14,12 +14,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 
-public class NewMain extends JPanel {
+public class Client extends JPanel {
 
     char playerMark = 'x';
     JButton[] buttons = new JButton[10];
 
-    public NewMain() {
+    public Client() {
         setLayout(new GridLayout(3,3));
         initializeButtons();
 
@@ -69,7 +69,7 @@ public class NewMain extends JPanel {
 
     public void displayVictor() {
 
-        if(checkForWinner() == true) {
+        if(checkForWinner()) {
 
             // reverse the player marks
             // because after we put x and we win, the game changes it to o
@@ -121,7 +121,7 @@ public class NewMain extends JPanel {
 
     // checks for a winner
     public boolean checkForWinner() {
-        if(checkRows() == true || checkColumns() == true || checkDiagonals() == true) return true;
+        if(checkRows() || checkColumns() || checkDiagonals()) return true;
         else return false;
     }
 
