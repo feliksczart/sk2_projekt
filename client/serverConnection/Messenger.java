@@ -7,8 +7,8 @@ public class Messenger {
 
     private Socket clientSocket;
     private DataInputStream in;
-    public static char team;
-    public static char turn;
+    public static String team;
+    public static String turn;
 
     public Messenger(int port) throws IOException {
         this.clientSocket = new Socket("localhost",port);
@@ -25,16 +25,16 @@ public class Messenger {
                 String info = FromServer.readLine();
                 System.out.println(info);
                 if(info.equals("joined x")){
-                    team = 'X';
+                    team = "X";
                 }
                 else if(info.equals("joined o")){
-                    team = 'O';
+                    team = "O";
                 }
                 else if(info.equals("turn x")){
-                    turn = 'X';
+                    turn = "X";
                 }
                 else if(info.equals("turn o")){
-                    turn = 'O';
+                    turn = "O";
                 }
             }
         }
@@ -54,5 +54,15 @@ public class Messenger {
                 toServer.flush();
             }
         }
+    }
+
+    public void sendMessage(String message) throws IOException {
+        PrintWriter toServer =
+                new PrintWriter(clientSocket.getOutputStream(),true);
+
+        String line = message;
+        toServer.write(line);
+        toServer.flush();
+
     }
 }

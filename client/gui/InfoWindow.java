@@ -1,7 +1,7 @@
 package gui;
 
-import game.Game;
-import game.Messenger;
+
+import serverConnection.Messenger;
 
 import javax.swing.*;
 import java.awt.*;
