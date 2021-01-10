@@ -12,10 +12,10 @@ class Game;
 
 class GameRunner {
 private:
-    Game* game;
 public:
-    GameRunner(Game *game);
-    void run();
+//    static void run(Game* game);
+
+    static void run(Game*, bool*, bool*);
 };
 
 

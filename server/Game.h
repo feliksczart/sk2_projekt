@@ -9,6 +9,7 @@
 #include "GameManager.h"
 #include "GameRunner.h"
 #include <string>
+#include <thread>
 
 class GameManager;
 class GameRunner;
@@ -20,21 +21,29 @@ private:
 
     std::vector<std::pair<int, int>*> votes;
     std::vector<int> players_voted;
-
     char field[9]{};
+
     char turn{};
     int turns_made{};
     GameManager* game_manager;
-
+    GameRunner* game_runner;
+    bool circle_ready, cross_ready;
     constexpr const static int WIN_POSITIONS[8][3] = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, {0, 4, 8}, {2, 4, 6}};
+
     constexpr const static int NO_WINNER_POSITION[] = {0, 0, 0};
 
     const int * get_win_position();
-    static bool sort_votes(const std::pair<int, int> &a, const std::pair<int, int> &b);
+    bool* everyone_voted;
 
+    static bool sort_votes(const std::pair<int, int> &a, const std::pair<int, int> &b);
 public:
+    bool* kill_runner;
+
+    pthread_mutex_t game_mutex = PTHREAD_MUTEX_INITIALIZER;
+    std::thread* game_runner_thread;
 
     const static int MAX_PLAYERS_IN_TEAM = 10;
+    const static int ROUND_DURATION_SECONDS = 5;
 
     int get_player_count();
     bool is_full();
@@ -55,13 +64,17 @@ public:
     void reconnect_team(char team);
     bool player_voted(int player);
     void send_to_all(const std::string& msg);
-    void process_poll();
+    int process_poll();
+    bool end_of_round();
+    void remove_player(int player);
+    void ready(char team);
+    bool both_teams_ready() const;
+    void run();
+    void reconnect_team(const std::vector<int> *team);
+    std::vector<int> *get_free_fields();
 
     Game(GameManager *pManager);
-
-    void remove_player(int player, bool team_empty_disconnection);
-
-    void reconnect_team(const std::vector<int> *team);
+    ~Game();
 
 };
 
