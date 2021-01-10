@@ -24,7 +24,7 @@ void GameRunner::run(Game* game, bool* stop, bool* everyone_voted) {
                 std::chrono::system_clock::now().time_since_epoch()).count();
         current_time = std::chrono::duration_cast<std::chrono::milliseconds>(
                 std::chrono::system_clock::now().time_since_epoch()).count();
-        while(((current_time - time_started) < Game::ROUND_DURATION_SECONDS * 1000)/* && !everyone_voted*/) {
+        while(((current_time - time_started) < Game::ROUND_DURATION_SECONDS * 1000) && !(*everyone_voted)) {
             //FIXME with everyone_voted game behaves like Flash
             if(*stop) {
 //                std::terminate();
