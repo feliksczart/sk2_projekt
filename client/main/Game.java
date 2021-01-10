@@ -1,14 +1,11 @@
 package main;
 
-import gui.GameWindow;
-import gui.InfoWindow;
 import serverConnection.Messenger;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -19,17 +16,16 @@ public class Game extends JPanel {
 
     char currentPlayer = 'x';
     JButton[] buttons = new JButton[10];
-
-    Messenger messenger = new Messenger(1111);
+    public int port;
+    public static Messenger messenger;
 
     public Game() throws IOException {
         setLayout(new GridLayout(3, 3));
         initializeButtons();
+        this.port = Integer.parseInt(JOptionPane.showInputDialog("Choose port"));
+        messenger = new Messenger(this.port);
     }
 
-    // a method used to create 9 buttons
-    // set the text, add action listeners
-    // and add them to the screen
     public void initializeButtons() {
         for (int i = 0; i <= 8; i++) {
             buttons[i] = new JButton();
@@ -41,19 +37,22 @@ public class Game extends JPanel {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
+
                     JButton buttonClicked = (JButton) e.getSource(); //get the particular button that was clicked
-                    buttonClicked.setFont(new Font("Arial", Font.PLAIN, 100));
-                    buttonClicked.setForeground(Color.white);
-                    buttonClicked.setText(Messenger.turn);
 
-                    try {
-                        messenger.sendMessage("vote "+ buttonClicked.getName());
-                    } catch (IOException ioException) {
-                        ioException.printStackTrace();
+                    new Thread(() -> {
+                        try {
+                            messenger.sendMessage("vote "+ buttonClicked.getName());
+                        } catch (IOException ioe) {
+                            ioe.printStackTrace();
+                        }
+                    }).start();
+
+                    if(Messenger.vote){
+                        buttonClicked.setFont(new Font("Arial", Font.PLAIN, 100));
+                        buttonClicked.setForeground(Color.white);
+                        buttonClicked.setText(Messenger.turn);
                     }
-                    System.out.println("vote "+ buttonClicked.getName());
-                    //System.in.read("vote "+ buttonClicked.getName());
-
 
                     if (currentPlayer == 'x') {
                         currentPlayer = 'o';
@@ -68,20 +67,14 @@ public class Game extends JPanel {
                 }
             });
 
-            add(buttons[i]); //adds this button to JPanel
+            add(buttons[i]);
         }
     }
-
-
-    // display the victorious player
 
     public void displayVictor() {
 
         if (checkForWinner()) {
 
-            // reverse the player marks
-            // because after we put x and we win, the game changes it to o
-            // but x is the winner
             if (currentPlayer == 'x') currentPlayer = 'o';
             else currentPlayer = 'x';
 
@@ -99,9 +92,6 @@ public class Game extends JPanel {
         }
     }
 
-
-    // method used to reset the buttons
-    // so you can play again
     private void resetTheButtons() {
         currentPlayer = 'x';
         for (int i = 0; i < 9; i++) {
@@ -111,8 +101,6 @@ public class Game extends JPanel {
 
         }
     }
-
-    // checks for draw
 
     public boolean checkDraw() {
         boolean full = true;
@@ -124,13 +112,11 @@ public class Game extends JPanel {
         return full;
     }
 
-    // checks for a winner
     public boolean checkForWinner() {
         if (checkRows() || checkColumns() || checkDiagonals()) return true;
         else return false;
     }
 
-    // checks rows for a win
     public boolean checkRows() {
         int i = 0;
         for (int j = 0; j < 3; j++) {
@@ -144,8 +130,6 @@ public class Game extends JPanel {
         return false;
     }
 
-
-    // checks columns for a win
     public boolean checkColumns() {
 
         int i = 0;
@@ -159,7 +143,6 @@ public class Game extends JPanel {
         return false;
     }
 
-    // checks diagonals for a win
     public boolean checkDiagonals() {
         if (buttons[0].getText().equals(buttons[4].getText()) && buttons[0].getText().equals(buttons[8].getText())
                 && buttons[0].getText().charAt(0) != ' ')

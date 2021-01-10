@@ -1,18 +1,20 @@
 package serverConnection;
 
+import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
 
 public class Messenger {
 
     private Socket clientSocket;
-    private DataInputStream in;
     public static String team;
     public static String turn;
+    public static int port;
+    public static boolean vote;
 
     public Messenger(int port) throws IOException {
+        this.port = port;
         this.clientSocket = new Socket("localhost",port);
-        this.in = new DataInputStream(new BufferedInputStream(clientSocket.getInputStream()));
     }
 
     public void read() throws IOException {
@@ -20,6 +22,7 @@ public class Messenger {
         BufferedReader FromServer =
                 new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
+        vote = true;
         while (true) {
             while (FromServer.ready()) {
                 String info = FromServer.readLine();
@@ -35,6 +38,9 @@ public class Messenger {
                 }
                 else if(info.equals("turn o")){
                     turn = "O";
+                }
+                else if(info.equals("illegal_vote")){
+                    vote = false;
                 }
             }
         }
@@ -60,8 +66,7 @@ public class Messenger {
         PrintWriter toServer =
                 new PrintWriter(clientSocket.getOutputStream(),true);
 
-        String line = message;
-        toServer.write(line);
+        toServer.write(message);
         toServer.flush();
 
     }

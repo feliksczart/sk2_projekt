@@ -5,12 +5,13 @@ import gui.InfoWindow;
 
 import java.io.IOException;
 
-public class Client {
+public class Client2 {
 
     public static void main(String[] args) throws IOException {
 
-        new GameWindow();
         MainMessenger.main(args);
+
+        new GameWindow();
         new InfoWindow();
     }
 

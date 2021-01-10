@@ -8,11 +8,9 @@ public class MainMessenger {
 
     public static void main(String[] args) throws IOException {
 
-        int port = Integer.parseInt(JOptionPane.showInputDialog("Choose port"));
-        Messenger messenger = new Messenger(port);
         new Thread(() -> {
             try {
-                messenger.read();
+                Game.messenger.read();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -20,7 +18,7 @@ public class MainMessenger {
 
         new Thread(() -> {
             try {
-                messenger.send();
+                Game.messenger.send();
             } catch (IOException e) {
                 e.printStackTrace();
             }
