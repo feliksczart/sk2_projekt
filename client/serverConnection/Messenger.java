@@ -1,8 +1,9 @@
 package serverConnection;
 
-import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Messenger {
 
@@ -11,10 +12,18 @@ public class Messenger {
     public static String turn;
     public static int port;
     public static boolean vote;
+    public static String place;
+    public static boolean isPlace;
+
+    public static List<MyListener> listeners = new ArrayList<MyListener>();
 
     public Messenger(int port) throws IOException {
         this.port = port;
         this.clientSocket = new Socket("localhost",port);
+    }
+
+    public void addListener(MyListener toAdd) {
+        listeners.add(toAdd);
     }
 
     public void read() throws IOException {
@@ -23,10 +32,14 @@ public class Messenger {
                 new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
         vote = true;
+        isPlace = false;
         while (true) {
             while (FromServer.ready()) {
                 String info = FromServer.readLine();
                 System.out.println(info);
+                for (MyListener hl : listeners)
+                    hl.messageReceived();
+
                 if(info.equals("joined x")){
                     team = "X";
                 }
@@ -41,6 +54,10 @@ public class Messenger {
                 }
                 else if(info.equals("illegal_vote")){
                     vote = false;
+                }
+                else if(info.contains("placed")){
+                    place = info;
+                    isPlace = true;
                 }
             }
         }
