@@ -10,6 +10,9 @@ std::vector<int> circle_team;
 char field[9];
 int turns_made = 0;
 
+std::vector<std::pair<int, int>*> votes;
+std::vector<int> players_voted;
+
 int Game::get_player_count() {
     return cross_team.size() + circle_team.size();
 }
@@ -57,41 +60,35 @@ char Game::get_winner() {
 }
 
 int Game::place(int position, char c) {
-
-    // >0 - ok
-    //  0 - end of game
-    // -1 - cell already occupied
-    // -2 - illegal move
-    // -3 - wrong turn
-
-    if(c != turn) {
-        return -3;
-    }
-
-    if(position > 8 || position < 0) {
-        return -2;
-    }
+    int result;
+    bool end_of_round = false;
 
     if(field[position] == '\0') {
         field[position] = c;
-        turns_made++;
-    } else if(field[position] != '\0') {
-        return -1;
+        result = ++turns_made;
+    } else {
+        throw std::logic_error("field not empty");
     }
+
 
     if(turns_made >= 5 && someone_won()) {
         game_manager->multicast(get_players(), "winner " + std::string(1, get_winner()));
         reset_game();
-        return 0;
+        result = 0;
+        end_of_round = true;
     }
 
     if(turns_made == 9 && !someone_won()) {
         game_manager->multicast(get_players(), "winner -");
         reset_game();
-        return 0;
+        result = 0;
+        end_of_round = true;
     }
-    next_turn();
-    return turns_made;
+    if(!end_of_round) {
+        next_turn();
+        send_to_all("placed " + std::to_string(position) + " " + std::string(1, c));
+    }
+    return result;
 }
 
 bool Game::is_player_here(int player) {
@@ -132,13 +129,39 @@ void Game::reset_game() {
     }
     turns_made = 0;
     turn = rand() % 2 ? 'x' : 'o';
-    game_manager->multicast(&cross_team, "turn " + std::string(1, turn));
-    game_manager->multicast(&circle_team, "turn " + std::string(1, turn));
+    std::string m = "turn " + std::string(1, turn);
+    game_manager->multicast(&cross_team, m);
+    game_manager->multicast(&circle_team, m);
 }
 
 int Game::process_vote(int player, int position) {
     char t = get_team(player);
-    return place(position, t);
+    if(t != turn) {
+        return -1;
+    } else if(position > 8 || position < 0) {
+        return -1;
+    } else if(field[position] != '\0') {
+        return -1;
+    } else if(player_voted(player)){
+        return -1;
+    } else {
+        bool found = false;
+        for(auto* p : votes) {
+            if(p->first == position) {
+                ++(p->second);
+                found = true;
+            }
+        }
+        if(!found) {
+            auto* p = new std::pair<int, int>;
+            p->first = position;
+            p->second = 1;
+            votes.push_back(p);
+        }
+        players_voted.push_back(player);
+        send_to_all("voted " + std::to_string(player) + " " + std::to_string(position));
+        return 0;
+    }
 }
 
 Game::Game(GameManager *pManager) {
@@ -159,8 +182,8 @@ char Game::get_turn() const {
 
 void Game::next_turn() {
     turn = turn == 'x' ? 'o' : 'x';
-    game_manager->multicast(&cross_team, "turn " + std::string(1, turn));
-    game_manager->multicast(&circle_team, "turn " + std::string(1, turn));
+    std::string m = "turn " + std::string(1, turn);
+    send_to_all(m);
 }
 
 bool Game::is_circle_team_empty() {
@@ -182,7 +205,7 @@ void Game::reconnect_team(char team) {
 void Game::reconnect_team(const std::vector<int>* team) {
     auto* v = new std::vector<int>;
     for(auto p : *team) {
-        bool player_present = game_manager->remove_player(p, true); //TODO add only present players
+        bool player_present = game_manager->remove_player(p, true);
         if(player_present) {
             v->push_back(p);
         }
@@ -191,6 +214,48 @@ void Game::reconnect_team(const std::vector<int>* team) {
         game_manager->add_player(p);
     }
     delete v;
+}
+
+bool Game::player_voted(int player) {
+    return std::find(players_voted.begin(), players_voted.end(), player) != players_voted.end();
+}
+
+void Game::send_to_all(const std::string& msg) {
+    game_manager->multicast(&cross_team, msg);
+    game_manager->multicast(&circle_team, msg);
+}
+
+void Game::process_poll() {
+//    sort(votes.begin(), votes.end(), sort_votes);
+    int max_vote_count = -1;
+    auto* choose_from = new std::vector<int>;
+
+    for(auto* p : votes) {
+        int vote_count = p->second;
+        int position = p->first;
+        if(vote_count > max_vote_count) {
+            max_vote_count = vote_count;
+            choose_from->clear();
+            choose_from->push_back(position);
+        } else if(vote_count == max_vote_count) {
+            choose_from->push_back(position);
+        }
+    }
+
+    int size = choose_from->size();
+    int num = rand() % size;
+    int position = choose_from->at(num);
+
+    place(position, turn);
+
+    players_voted.clear();
+    votes.clear();
+    delete choose_from;
+}
+
+bool Game::sort_votes(const std::pair<int,int> &a,
+               const std::pair<int,int> &b) {
+    return (a.second > b.second);
 }
 
 

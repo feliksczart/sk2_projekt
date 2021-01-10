@@ -7,13 +7,20 @@
 
 #include <vector>
 #include "GameManager.h"
+#include "GameRunner.h"
+#include <string>
 
 class GameManager;
+class GameRunner;
 
 class Game {
 private:
     std::vector<int> cross_team;
     std::vector<int> circle_team;
+
+    std::vector<std::pair<int, int>*> votes;
+    std::vector<int> players_voted;
+
     char field[9]{};
     char turn{};
     int turns_made{};
@@ -23,6 +30,7 @@ private:
     constexpr const static int NO_WINNER_POSITION[] = {0, 0, 0};
 
     const int * get_win_position();
+    static bool sort_votes(const std::pair<int, int> &a, const std::pair<int, int> &b);
 
 public:
 
@@ -45,12 +53,16 @@ public:
     bool is_cross_team_empty();
     bool is_circle_team_empty();
     void reconnect_team(char team);
+    bool player_voted(int player);
+    void send_to_all(const std::string& msg);
+    void process_poll();
 
     Game(GameManager *pManager);
 
     void remove_player(int player, bool team_empty_disconnection);
 
     void reconnect_team(const std::vector<int> *team);
+
 };
 
 
