@@ -11,6 +11,8 @@ public class Messenger {
     public static String turn;
     public static int port;
     public static boolean vote;
+    public static String place;
+    public static boolean isPlace;
 
     public Messenger(int port) throws IOException {
         this.port = port;
@@ -23,10 +25,12 @@ public class Messenger {
                 new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
         vote = true;
+        isPlace = false;
         while (true) {
             while (FromServer.ready()) {
                 String info = FromServer.readLine();
                 System.out.println(info);
+
                 if(info.equals("joined x")){
                     team = "X";
                 }
@@ -41,6 +45,10 @@ public class Messenger {
                 }
                 else if(info.equals("illegal_vote")){
                     vote = false;
+                }
+                else if(info.contains("placed")){
+                    place = info;
+                    isPlace = true;
                 }
             }
         }

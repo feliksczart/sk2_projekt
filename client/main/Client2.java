@@ -9,9 +9,8 @@ public class Client2 {
 
     public static void main(String[] args) throws IOException {
 
-        MainMessenger.main(args);
-
         new GameWindow();
+        MainMessenger.main(args);
         new InfoWindow();
     }
 
