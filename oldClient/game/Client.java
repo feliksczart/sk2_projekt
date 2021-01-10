@@ -45,12 +45,12 @@ public class Client extends Game{
     }
 
     @Override
-    public void close() {
-        try {
-//            connection.close();
-            socket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    public void close() {}
+//        try {
+////            connection.close();
+//            //socket.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }

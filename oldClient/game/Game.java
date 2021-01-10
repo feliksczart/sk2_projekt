@@ -28,7 +28,11 @@ public abstract class Game {
         fields = new int[3][3];
         window.add(gameWindow);
         window.setVisible(true);
-        currentPlayer = Game.PLAYER_O;
+        //window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        if (Messenger.team == 'X')
+            currentPlayer = Game.PLAYER_X;
+        else if (Messenger.team == 'O')
+            currentPlayer = Game.PLAYER_O;
     }
 
     protected void showWinner(int winner){
