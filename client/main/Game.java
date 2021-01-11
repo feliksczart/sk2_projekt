@@ -1,5 +1,6 @@
 package main;
 
+import gui.InfoWindow;
 import serverConnection.Listener;
 import serverConnection.Messenger;
 import serverConnection.MyListener;
@@ -29,6 +30,7 @@ public class Game extends JPanel implements MyListener {
     public int port;
     public static Messenger messenger;
     public static boolean trueIsPlace;
+    public static boolean ready = false;
 
     public Game() throws IOException {
         setLayout(new GridLayout(3, 3));
@@ -41,8 +43,15 @@ public class Game extends JPanel implements MyListener {
         for (int i = 0; i <= 8; i++) {
             buttons[i] = new JButton();
             buttons[i].setPreferredSize(new Dimension(100, 100));
-            buttons[i].setText(" ");
-            buttons[i].setBackground(Color.BLACK);
+            if(i==4){
+                buttons[i].setFont(new Font("Arial", Font.PLAIN, 40));
+                buttons[i].setForeground(Color.BLACK);
+                buttons[i].setText("I'm ready");
+                buttons[i].setBackground(Color.GREEN);
+            } else {
+                buttons[i].setText(" ");
+                buttons[i].setBackground(Color.BLACK);
+            }
             buttons[i].setName(String.valueOf(i));
             buttons[i].addActionListener(new ActionListener() {
 
@@ -52,38 +61,55 @@ public class Game extends JPanel implements MyListener {
                     JButton buttonClicked = (JButton) e.getSource(); //get the particular button that was clicked
                     String trueTurn = Messenger.turn;
 
-                    new Thread(() -> {
+                    if (ready) {
+                        new Thread(() -> {
+                            try {
+                                messenger.sendMessage("vote " + buttonClicked.getName());
+                            } catch (IOException ioe) {
+                                ioe.printStackTrace();
+                            }
+                        }).start();
+
                         try {
-                            messenger.sendMessage("vote "+ buttonClicked.getName());
-                        } catch (IOException ioe) {
-                            ioe.printStackTrace();
+                            TimeUnit.MICROSECONDS.sleep(10);
+                        } catch (InterruptedException interruptedException) {
+                            interruptedException.printStackTrace();
                         }
-                    }).start();
 
-                    try {
-                        TimeUnit.MICROSECONDS.sleep(10);
-                    } catch (InterruptedException interruptedException) {
-                        interruptedException.printStackTrace();
-                    }
+                        trueIsPlace = Messenger.isPlace;
 
-                    trueIsPlace = Messenger.isPlace;
+                        if (Messenger.vote && !Arrays.asList(placed).contains(Integer.valueOf(buttonClicked.getName()))) {
+                            buttonClicked.setFont(new Font("Arial", Font.PLAIN, 100));
+                            buttonClicked.setForeground(Color.white);
+                            buttonClicked.setText(trueTurn);
+                            placed.add(Integer.valueOf(buttonClicked.getName()));
+                        }
 
-                    if(Messenger.vote && !Arrays.asList(placed).contains(Integer.valueOf(buttonClicked.getName()))){
-                        buttonClicked.setFont(new Font("Arial", Font.PLAIN, 100));
-                        buttonClicked.setForeground(Color.white);
-                        buttonClicked.setText(trueTurn);
-                        placed.add(Integer.valueOf(buttonClicked.getName()));
-                    }
+                        if (currentPlayer == 'x') {
+                            currentPlayer = 'o';
+                            buttonClicked.setBackground(Color.BLACK);
+                        } else {
+                            currentPlayer = 'x';
+                            buttonClicked.setBackground(Color.BLACK);
+                        }
 
-                    if (currentPlayer == 'x') {
-                        currentPlayer = 'o';
-                        buttonClicked.setBackground(Color.BLACK);
+                        displayVictor();
                     } else {
-                        currentPlayer = 'x';
-                        buttonClicked.setBackground(Color.BLACK);
-                    }
+                        if(buttonClicked.getName().equals("4")) {
+                            new Thread(() -> {
+                                try {
+                                    messenger.sendMessage("ready");
+                                } catch (IOException ioe) {
+                                    ioe.printStackTrace();
+                                }
+                            }).start();
+                            ready = true;
+                            buttons[4].setText(" ");
+                            buttons[4].setBackground(Color.BLACK);
 
-                    displayVictor();
+                            new InfoWindow();
+                        }
+                    }
                 }
             });
 
@@ -96,7 +122,7 @@ public class Game extends JPanel implements MyListener {
         try {
             List<String> opponentSymbol = opponentSymbol();
             updateTheButtons(Integer.parseInt(opponentSymbol.get(0)), opponentSymbol.get(1));
-        } catch (NullPointerException e){}
+        } catch (NullPointerException ignored){}
 
 
     }

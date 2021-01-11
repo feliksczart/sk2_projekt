@@ -44,6 +44,12 @@ public class Messenger {
                 else if(info.equals("joined o")){
                     team = "O";
                 }
+                else if(info.equals("ready x")){
+                    team = "X";
+                }
+                else if(info.equals("ready o")){
+                    team = "O";
+                }
                 else if(info.equals("turn x")){
                     turn = "X";
                 }
