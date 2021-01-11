@@ -28,6 +28,16 @@ string
 thread
 -
 
+/home/mister_hz/sharaga/sk2/sk2_projekt/server/GameManager.cpp
+algorithm
+-
+iostream
+-
+GameManager.h
+/home/mister_hz/sharaga/sk2/sk2_projekt/server/GameManager.h
+server.h
+/home/mister_hz/sharaga/sk2/sk2_projekt/server/server.h
+
 /home/mister_hz/sharaga/sk2/sk2_projekt/server/GameManager.h
 Game.h
 /home/mister_hz/sharaga/sk2/sk2_projekt/server/Game.h
@@ -81,4 +91,6 @@ Game.h
 /home/mister_hz/sharaga/sk2/sk2_projekt/server/Game.h
 GameManager.h
 /home/mister_hz/sharaga/sk2/sk2_projekt/server/GameManager.h
+
+/home/mister_hz/sharaga/sk2/sk2_projekt/server/server.h
 

@@ -80,7 +80,7 @@ int Game::place(int position, char c) {
     }
 
     if(end_of_round() && !someone_won()) {
-        game_manager->multicast(get_players(), "winner -");
+        game_manager->multicast(get_players(), "winner -"); //FIXME after winner - turn %char% msg is sent 2 times
 //        reset_game();
         result = 0;
     }
