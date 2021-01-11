@@ -20,6 +20,8 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import static gui.InfoWindow.updateInfo;
+
 
 public class Game extends JPanel implements MyListener {
 
@@ -31,6 +33,7 @@ public class Game extends JPanel implements MyListener {
     public static Messenger messenger;
     public static boolean trueIsPlace;
     public static boolean ready = false;
+    public static String trueTurn;
 
     public Game() throws IOException {
         setLayout(new GridLayout(3, 3));
@@ -59,7 +62,7 @@ public class Game extends JPanel implements MyListener {
                 public void actionPerformed(ActionEvent e) {
 
                     JButton buttonClicked = (JButton) e.getSource(); //get the particular button that was clicked
-                    String trueTurn = Messenger.turn;
+                    trueTurn = Messenger.turn;
 
                     if (ready) {
                         new Thread(() -> {
@@ -83,6 +86,7 @@ public class Game extends JPanel implements MyListener {
                             buttonClicked.setForeground(Color.white);
                             buttonClicked.setText(trueTurn);
                             placed.add(Integer.valueOf(buttonClicked.getName()));
+                            updateInfo(InfoWindow.info);
                         }
 
                         if (currentPlayer == 'x') {
@@ -122,6 +126,7 @@ public class Game extends JPanel implements MyListener {
         try {
             List<String> opponentSymbol = opponentSymbol();
             updateTheButtons(Integer.parseInt(opponentSymbol.get(0)), opponentSymbol.get(1));
+            updateInfo(InfoWindow.info);
         } catch (NullPointerException ignored){}
 
 
