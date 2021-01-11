@@ -51,4 +51,8 @@ public class InfoWindow extends JPanel {
         label.setForeground(Color.white);
         info.add(label, BorderLayout.BEFORE_FIRST_LINE);
     }
+
+    public static void infoReset(JFrame info){
+        info.remove(label);
+    }
 }

@@ -1,15 +1,13 @@
 package main;
 
+import gui.GameWindow;
 import gui.InfoWindow;
 import serverConnection.Listener;
 import serverConnection.Messenger;
 import serverConnection.MyListener;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.InputMethodEvent;
-import java.awt.event.InputMethodListener;
+import java.awt.event.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,6 +18,7 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import static gui.InfoWindow.infoReset;
 import static gui.InfoWindow.updateInfo;
 
 
@@ -143,7 +142,13 @@ public class Game extends JPanel implements MyListener {
             int dialogResult = JOptionPane.showConfirmDialog(pane, "Game Over. " + currentPlayer + " wins. Would you like to play again?", "Game over.",
                     JOptionPane.YES_NO_OPTION);
 
-            if (dialogResult == JOptionPane.YES_OPTION) resetTheButtons();
+            if (dialogResult == JOptionPane.YES_OPTION){
+//                resetTheButtons();
+                GameWindow.windowReset();
+                infoReset(InfoWindow.info);
+                ready= false;
+                initializeButtons();
+            }
             else System.exit(0);
         } else if (checkDraw()) {
             JOptionPane pane = new JOptionPane();
