@@ -42,7 +42,7 @@ public:
     pthread_mutex_t game_mutex = PTHREAD_MUTEX_INITIALIZER;
     std::thread* game_runner_thread;
 
-    const static int MAX_PLAYERS_IN_TEAM = 1;
+    const static int MAX_PLAYERS_IN_TEAM = 10;
     const static int ROUND_DURATION_SECONDS = 10;
 
     int get_player_count();
