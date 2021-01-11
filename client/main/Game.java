@@ -32,6 +32,7 @@ public class Game extends JPanel implements MyListener {
     public static Messenger messenger;
     public static boolean trueIsPlace;
     public static boolean ready = false;
+    public static boolean gameReset = false;
     public static String trueTurn;
 
     public Game() throws IOException {
@@ -115,7 +116,9 @@ public class Game extends JPanel implements MyListener {
                             buttons[4].setText(" ");
                             buttons[4].setBackground(Color.BLACK);
 
-                            new InfoWindow();
+                            if(!gameReset){
+                                new InfoWindow();
+                            }
                         }
                     }
                 }
@@ -150,9 +153,10 @@ public class Game extends JPanel implements MyListener {
             if (dialogResult == JOptionPane.YES_OPTION){
                 GameWindow.windowReset();
                 infoReset(InfoWindow.info);
-                ready= false;
+                ready = false;
+                gameReset = true;
                 //resetTheButtons();
-                //initializeButtons();
+                initializeButtons();
             }
             else System.exit(0);
         } else if (checkDraw()) {

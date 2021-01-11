@@ -25,10 +25,11 @@ public class GameWindow {
     }
 
     public static void windowReset() throws IOException {
-        window.getContentPane().remove(game);
+        window.getContentPane().removeAll();
         window.repaint();
         game = new Game();
-        window.add(game);
+        window.getContentPane().add(game);
+        window.setSize(801,601);
         //Game.messenger.addListener(game);
 
     }
