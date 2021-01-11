@@ -60,13 +60,13 @@ public class Game extends JPanel implements MyListener {
                         }
                     }).start();
 
-                    trueIsPlace = Messenger.isPlace;
-
                     try {
                         TimeUnit.MICROSECONDS.sleep(10);
                     } catch (InterruptedException interruptedException) {
                         interruptedException.printStackTrace();
                     }
+
+                    trueIsPlace = Messenger.isPlace;
 
                     if(Messenger.vote && !Arrays.asList(placed).contains(Integer.valueOf(buttonClicked.getName()))){
                         buttonClicked.setFont(new Font("Arial", Font.PLAIN, 100));
@@ -93,10 +93,12 @@ public class Game extends JPanel implements MyListener {
 
     @Override
     public void messageReceived() {
-        if(trueIsPlace) {
+        try {
             List<String> opponentSymbol = opponentSymbol();
             updateTheButtons(Integer.parseInt(opponentSymbol.get(0)), opponentSymbol.get(1));
-        }
+        } catch (NullPointerException e){}
+
+
     }
 
     public void displayVictor() {

@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class Messenger {
 
@@ -32,13 +33,10 @@ public class Messenger {
                 new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
         vote = true;
-        isPlace = false;
         while (true) {
             while (FromServer.ready()) {
                 String info = FromServer.readLine();
                 System.out.println(info);
-                for (MyListener hl : listeners)
-                    hl.messageReceived();
 
                 if(info.equals("joined x")){
                     team = "X";
@@ -59,6 +57,9 @@ public class Messenger {
                     place = info;
                     isPlace = true;
                 }
+
+                for (MyListener hl : listeners)
+                    hl.messageReceived();
             }
         }
     }
@@ -82,7 +83,6 @@ public class Messenger {
     public void sendMessage(String message) throws IOException {
         PrintWriter toServer =
                 new PrintWriter(clientSocket.getOutputStream(),true);
-
         toServer.write(message);
         toServer.flush();
 
