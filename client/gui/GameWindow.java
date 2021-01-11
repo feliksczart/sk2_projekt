@@ -24,14 +24,12 @@ public class GameWindow {
         window.setLocationRelativeTo(null);
     }
 
-    public static void windowReset(){
-        window.removeAll();
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.getContentPane().setBackground(Color.BLACK);
-        window.setSize(800,600);
-        window.getContentPane().add(game);
+    public static void windowReset() throws IOException {
+        window.getContentPane().remove(game);
+        window.repaint();
+        game = new Game();
+        window.add(game);
         //Game.messenger.addListener(game);
-        window.setVisible(true);
-        //window.setLocationRelativeTo(null);
+
     }
 }

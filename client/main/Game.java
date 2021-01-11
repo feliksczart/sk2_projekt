@@ -25,7 +25,7 @@ import static gui.InfoWindow.updateInfo;
 public class Game extends JPanel implements MyListener {
 
     char currentPlayer = 'x';
-    JButton[] buttons = new JButton[9];
+    public static JButton[] buttons;
     List<Integer> placed = new ArrayList<Integer>();
 
     public int port;
@@ -37,11 +37,12 @@ public class Game extends JPanel implements MyListener {
     public Game() throws IOException {
         setLayout(new GridLayout(3, 3));
         initializeButtons();
-        this.port = Integer.parseInt(JOptionPane.showInputDialog("Choose port"));
-        messenger = new Messenger(this.port);
+        //this.port = Integer.parseInt(JOptionPane.showInputDialog("Choose port"));
+        messenger = new Messenger(1111);
     }
 
     public void initializeButtons() {
+        buttons = new JButton[9];
         for (int i = 0; i <= 8; i++) {
             buttons[i] = new JButton();
             buttons[i].setPreferredSize(new Dimension(100, 100));
@@ -96,7 +97,11 @@ public class Game extends JPanel implements MyListener {
                             buttonClicked.setBackground(Color.BLACK);
                         }
 
-                        displayVictor();
+                        try {
+                            displayVictor();
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
                     } else {
                         if(buttonClicked.getName().equals("4")) {
                             new Thread(() -> {
@@ -131,7 +136,7 @@ public class Game extends JPanel implements MyListener {
 
     }
 
-    public void displayVictor() {
+    public void displayVictor() throws IOException {
 
         if (checkForWinner()) {
 
@@ -143,11 +148,11 @@ public class Game extends JPanel implements MyListener {
                     JOptionPane.YES_NO_OPTION);
 
             if (dialogResult == JOptionPane.YES_OPTION){
-//                resetTheButtons();
                 GameWindow.windowReset();
                 infoReset(InfoWindow.info);
                 ready= false;
-                initializeButtons();
+                //resetTheButtons();
+                //initializeButtons();
             }
             else System.exit(0);
         } else if (checkDraw()) {
