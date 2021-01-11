@@ -3,6 +3,8 @@
 //
 
 #include <algorithm>
+#include <thread>
+#include <iostream>
 #include "Game.h"
 
 std::vector<int> cross_team;
@@ -12,6 +14,7 @@ int turns_made = 0;
 
 std::vector<std::pair<int, int>*> votes;
 std::vector<int> players_voted;
+
 
 int Game::get_player_count() {
     return cross_team.size() + circle_team.size();
@@ -61,7 +64,6 @@ char Game::get_winner() {
 
 int Game::place(int position, char c) {
     int result;
-    bool end_of_round = false;
 
     if(field[position] == '\0') {
         field[position] = c;
@@ -70,22 +72,20 @@ int Game::place(int position, char c) {
         throw std::logic_error("field not empty");
     }
 
-
     if(turns_made >= 5 && someone_won()) {
         game_manager->multicast(get_players(), "winner " + std::string(1, get_winner()));
-        reset_game();
+        send_to_all("placed " + std::to_string(position) + " " + std::string(1, c));
+//        reset_game();
         result = 0;
-        end_of_round = true;
     }
 
-    if(turns_made == 9 && !someone_won()) {
+    if(end_of_round() && !someone_won()) {
         game_manager->multicast(get_players(), "winner -");
-        reset_game();
+//        reset_game();
         result = 0;
-        end_of_round = true;
     }
-    if(!end_of_round) {
-        next_turn();
+    if(result > 0) {
+//        next_turn();
         send_to_all("placed " + std::to_string(position) + " " + std::string(1, c));
     }
     return result;
@@ -97,7 +97,7 @@ bool Game::is_player_here(int player) {
     return in_cross || in_circle;
 }
 
-void Game::remove_player(int player, bool team_empty_disconnection) {
+void Game::remove_player(int player) {
     bool in_cross = std::find(cross_team.begin(), cross_team.end(), player) != cross_team.end();
     if(in_cross) {
         cross_team.erase(std::remove(cross_team.begin(), cross_team.end(), player), cross_team.end());
@@ -105,9 +105,6 @@ void Game::remove_player(int player, bool team_empty_disconnection) {
     } else {
         circle_team.erase(std::remove(circle_team.begin(), circle_team.end(), player), circle_team.end());
         circle_team.shrink_to_fit();
-    }
-    if(team_empty_disconnection) {
-        game_manager->unicast(player, "disconnected");
     }
 }
 
@@ -127,11 +124,14 @@ void Game::reset_game() {
     for(char & i : field) {
         i = '\0';
     }
-    turns_made = 0;
     turn = rand() % 2 ? 'x' : 'o';
+    turns_made = 0;
+    *kill_runner = false;
     std::string m = "turn " + std::string(1, turn);
     game_manager->multicast(&cross_team, m);
     game_manager->multicast(&circle_team, m);
+    circle_ready = false;
+    cross_ready = false;
 }
 
 int Game::process_vote(int player, int position) {
@@ -143,6 +143,8 @@ int Game::process_vote(int player, int position) {
     } else if(field[position] != '\0') {
         return -1;
     } else if(player_voted(player)){
+        return -1;
+    } else if(!both_teams_ready()){
         return -1;
     } else {
         bool found = false;
@@ -160,12 +162,20 @@ int Game::process_vote(int player, int position) {
         }
         players_voted.push_back(player);
         send_to_all("voted " + std::to_string(player) + " " + std::to_string(position));
+
+        auto* team_vector = turn == 'x' ? &cross_team : &circle_team;
+        if(players_voted.size() == team_vector->size()) {
+            *everyone_voted = true;
+        }
+
         return 0;
     }
 }
 
 Game::Game(GameManager *pManager) {
     game_manager = pManager;
+    kill_runner = new bool;
+    everyone_voted = new bool;
     reset_game();
 }
 
@@ -225,7 +235,7 @@ void Game::send_to_all(const std::string& msg) {
     game_manager->multicast(&circle_team, msg);
 }
 
-void Game::process_poll() {
+int Game::process_poll() {
 //    sort(votes.begin(), votes.end(), sort_votes);
     int max_vote_count = -1;
     auto* choose_from = new std::vector<int>;
@@ -241,21 +251,64 @@ void Game::process_poll() {
             choose_from->push_back(position);
         }
     }
-
+    if(max_vote_count <= 0) { //FIXME either 0 or -1
+        delete choose_from;
+        choose_from = get_free_fields();
+    }
     int size = choose_from->size();
     int num = rand() % size;
     int position = choose_from->at(num);
 
-    place(position, turn);
+    int r = place(position, turn);
 
     players_voted.clear();
     votes.clear();
     delete choose_from;
+
+    return r;
 }
 
 bool Game::sort_votes(const std::pair<int,int> &a,
                const std::pair<int,int> &b) {
     return (a.second > b.second);
+}
+
+bool Game::end_of_round() {
+    return (turns_made == 9) || someone_won();
+}
+
+void Game::run() {
+    delete game_runner_thread;
+    game_runner_thread = new std::thread(GameRunner::run, this, kill_runner, everyone_voted);
+    game_runner_thread->detach();
+    std::cout << "start" << std::endl;
+}
+
+std::vector<int> *Game::get_free_fields() {
+    auto* f = new std::vector<int>;
+    for(int i = 0; i < 9; i++) {
+        if(field[i] == '\0') {
+            f->push_back(i);
+        }
+    }
+    return f;
+}
+
+void Game::ready(char team) {
+    if(team == 'o') {
+        circle_ready = true;
+    } else {
+        cross_ready = true;
+    }
+}
+
+bool Game::both_teams_ready() const {
+    return cross_ready && circle_ready;
+}
+
+Game::~Game() {
+    delete kill_runner;
+    delete everyone_voted;
 }
 
 
