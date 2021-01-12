@@ -14,6 +14,7 @@ public class Messenger {
     public static int port;
     public static boolean vote;
     public static String place;
+    public static String winner;
     public static boolean isPlace;
 
     public static List<MyListener> listeners = new ArrayList<MyListener>();
@@ -62,6 +63,15 @@ public class Messenger {
                 else if(info.contains("placed")){
                     place = info;
                     isPlace = true;
+                }
+                else if(info.equals("winner o")){
+                    winner = "O";
+                }
+                else if(info.contains("winner x")){
+                    winner = "X";
+                }
+                else if(info.contains("winner -")){
+                    winner = "Draw";
                 }
 
                 for (MyListener hl : listeners)
