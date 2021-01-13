@@ -33,23 +33,12 @@ public class InfoWindow extends JPanel {
         info.add(label, BorderLayout.BEFORE_FIRST_LINE);
     }
 
-    public static void updateInfo(JFrame info){
-        info.remove(label);
-        try {
-            TimeUnit.MICROSECONDS.sleep(10);
-        } catch (InterruptedException interruptedException) {
-            interruptedException.printStackTrace();
-        }
-        SwingUtilities.updateComponentTreeUI(info);
-        info.setLayout(new BorderLayout());
+    public static void updateInfo(){
         String informations = "<html>Team: "+ Messenger.team
                 + "<br/>" + "Turn: " + Messenger.turn
                 +"</html>";
 
-        label = new JLabel(informations);
-        label.setFont(new Font("Arial", Font.PLAIN, 20));
-        label.setForeground(Color.white);
-        info.add(label, BorderLayout.BEFORE_FIRST_LINE);
+        label.setText(informations);
     }
 
     public static void infoReset(JFrame info){

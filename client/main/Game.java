@@ -66,13 +66,12 @@ public class Game extends JPanel implements MyListener {
                     trueTurn = Messenger.turn;
 
                     if (ready) {
-                        new Thread(() -> {
-                            try {
-                                messenger.sendMessage("vote " + buttonClicked.getName());
-                            } catch (IOException ioe) {
-                                ioe.printStackTrace();
-                            }
-                        }).start();
+
+                        try {
+                            messenger.sendMessage("vote " + buttonClicked.getName());
+                        } catch (IOException ioe) {
+                            ioe.printStackTrace();
+                        }
 
                         try {
                             TimeUnit.MICROSECONDS.sleep(10);
@@ -87,7 +86,7 @@ public class Game extends JPanel implements MyListener {
                             buttonClicked.setForeground(Color.white);
                             buttonClicked.setText(trueTurn);
                             placed.add(Integer.valueOf(buttonClicked.getName()));
-                            updateInfo(InfoWindow.info);
+                            updateInfo();
                         }
 
                         if (currentPlayer == 'x') {
@@ -100,13 +99,13 @@ public class Game extends JPanel implements MyListener {
 
                     } else {
                         if(buttonClicked.getName().equals("4")) {
-                            new Thread(() -> {
-                                try {
-                                    messenger.sendMessage("ready");
-                                } catch (IOException ioe) {
-                                    ioe.printStackTrace();
-                                }
-                            }).start();
+
+                            try {
+                                messenger.sendMessage("ready");
+                            } catch (IOException ioe) {
+                                ioe.printStackTrace();
+                            }
+
                             ready = true;
                             buttons[4].setText(" ");
                             buttons[4].setBackground(Color.BLACK);
@@ -128,7 +127,7 @@ public class Game extends JPanel implements MyListener {
         try {
             List<String> opponentSymbol = opponentSymbol();
             updateTheButtons(Integer.parseInt(opponentSymbol.get(0)), opponentSymbol.get(1));
-            updateInfo(InfoWindow.info);
+            updateInfo();
             winnerChosen();
         } catch (NullPointerException | IOException ignored){}
 
@@ -150,11 +149,17 @@ public class Game extends JPanel implements MyListener {
             if (dialogResult == JOptionPane.YES_OPTION){
                 GameWindow.windowReset();
                 infoReset(InfoWindow.info);
-                ready = false;
+                //ready = false;
                 gameReset = true;
                 Messenger.winner = null;
                 //resetTheButtons();
-                initializeButtons();
+                //initializeButtons();
+                resetTheButtons();
+                buttons[4].setFont(new Font("Arial", Font.PLAIN, 40));
+                buttons[4].setForeground(Color.BLACK);
+                buttons[4].setText("I'm ready");
+                buttons[4].setBackground(Color.GREEN);
+
             }
             else System.exit(0);
         }
@@ -163,7 +168,7 @@ public class Game extends JPanel implements MyListener {
 
 
     private void resetTheButtons() {
-        currentPlayer = 'x';
+
         for (int i = 0; i < 9; i++) {
 
             buttons[i].setText(" ");
