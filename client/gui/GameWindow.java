@@ -26,7 +26,7 @@ public class GameWindow {
 
     public static void windowReset() throws IOException {
         window.getContentPane().removeAll();
-        window.repaint();
+//        window.repaint();
         game = new Game();
         window.getContentPane().add(game);
         window.setSize(801,601);

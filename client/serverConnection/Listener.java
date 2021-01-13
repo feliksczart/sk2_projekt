@@ -12,13 +12,6 @@ public class Listener {
         this.messenger = messenger;
     }
 
-    public void messageRecieved(){
-        new Thread(() -> {
-            try {
-                Game.messenger.read();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }).start();
-    };
+    public void messageRecieved() {
+    }
 }

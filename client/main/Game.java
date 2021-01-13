@@ -24,8 +24,8 @@ import static gui.InfoWindow.updateInfo;
 
 public class Game extends JPanel implements MyListener {
 
-    char currentPlayer = 'x';
     public static JButton[] buttons;
+    public static JButton[] buttons2;
     List<Integer> placed = new ArrayList<Integer>();
 
     public int port;
@@ -89,14 +89,6 @@ public class Game extends JPanel implements MyListener {
                             updateInfo();
                         }
 
-                        if (currentPlayer == 'x') {
-                            currentPlayer = 'o';
-                            buttonClicked.setBackground(Color.BLACK);
-                        } else {
-                            currentPlayer = 'x';
-                            buttonClicked.setBackground(Color.BLACK);
-                        }
-
                     } else {
                         if(buttonClicked.getName().equals("4")) {
 
@@ -117,10 +109,12 @@ public class Game extends JPanel implements MyListener {
                     }
                 }
             });
-
-            add(buttons[i]);
+            if(!gameReset) {
+                add(buttons[i]);
+            }
         }
     }
+
 
     @Override
     public void messageReceived() {
@@ -147,19 +141,16 @@ public class Game extends JPanel implements MyListener {
             }
 
             if (dialogResult == JOptionPane.YES_OPTION){
-                GameWindow.windowReset();
+                //GameWindow.windowReset();
                 infoReset(InfoWindow.info);
-                //ready = false;
+                ready = false;
                 gameReset = true;
                 Messenger.winner = null;
-                //resetTheButtons();
+                placed.clear();
+
                 //initializeButtons();
                 resetTheButtons();
-                buttons[4].setFont(new Font("Arial", Font.PLAIN, 40));
-                buttons[4].setForeground(Color.BLACK);
-                buttons[4].setText("I'm ready");
-                buttons[4].setBackground(Color.GREEN);
-
+                initializeButtons();
             }
             else System.exit(0);
         }
@@ -175,6 +166,11 @@ public class Game extends JPanel implements MyListener {
             buttons[i].setBackground(Color.BLACK);
 
         }
+
+        buttons[4].setFont(new Font("Arial", Font.PLAIN, 40));
+        buttons[4].setForeground(Color.BLACK);
+        buttons[4].setText("I'm ready");
+        buttons[4].setBackground(Color.GREEN);
     }
 
     public List<String> opponentSymbol(){
