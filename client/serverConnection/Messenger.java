@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Messenger {
 
-    private Socket clientSocket;
+    public Socket clientSocket;
     public static String team;
     public static String turn;
     public static int port;

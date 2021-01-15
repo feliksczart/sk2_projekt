@@ -6,6 +6,7 @@ import main.Game;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.net.Socket;
 
 public class GameWindow {
 
@@ -30,6 +31,8 @@ public class GameWindow {
         Game.messenger.removeListener(game);
 //        window.repaint();
         game = new Game();
+        Game.messenger.clientSocket.close();
+        Game.messenger.clientSocket = new Socket("localhost", 1111);
         window.getContentPane().setBackground(Color.BLACK);
         window.getContentPane().add(game);
         Game.messenger.addListener(game);
