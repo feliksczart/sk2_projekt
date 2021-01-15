@@ -19,6 +19,7 @@ public class InfoWindow extends JPanel {
         info.setSize(200,600);
         info.setVisible(true);
         info.setLocationRelativeTo(null);
+        info.setResizable(false);
         writeInfo();
     }
 

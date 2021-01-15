@@ -28,6 +28,10 @@ public class Messenger {
         listeners.add(toAdd);
     }
 
+    public void removeListener(MyListener toRm) {
+        listeners.remove(toRm);
+    }
+
     public void read() throws IOException {
 
         BufferedReader FromServer =
@@ -45,12 +49,6 @@ public class Messenger {
                 else if(info.equals("joined o")){
                     team = "O";
                 }
-//                else if(info.equals("ready x")){
-//                    team = "X";
-//                }
-//                else if(info.equals("ready o")){
-//                    team = "O";
-//                }
                 else if(info.equals("turn x")){
                     turn = "X";
                 }

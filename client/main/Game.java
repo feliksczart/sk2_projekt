@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -27,6 +28,7 @@ public class Game extends JPanel implements MyListener {
     public static JButton[] buttons;
     public static JButton[] buttons2;
     List<Integer> placed = new ArrayList<Integer>();
+    Font font = new Font("Arial", Font.PLAIN, 100);
 
     public int port;
     public static Messenger messenger;
@@ -82,11 +84,18 @@ public class Game extends JPanel implements MyListener {
                         trueIsPlace = Messenger.isPlace;
 
                         if (Messenger.vote && !Arrays.asList(placed).contains(Integer.valueOf(buttonClicked.getName()))) {
-                            buttonClicked.setFont(new Font("Arial", Font.PLAIN, 100));
+                            buttonClicked.setFont(font);
                             buttonClicked.setForeground(Color.white);
                             buttonClicked.setText(trueTurn);
                             placed.add(Integer.valueOf(buttonClicked.getName()));
+                            System.out.println(placed);
                             updateInfo();
+                        }
+
+                        try {
+                            TimeUnit.MICROSECONDS.sleep(10);
+                        } catch (InterruptedException interruptedException) {
+                            interruptedException.printStackTrace();
                         }
 
                     } else {
@@ -120,7 +129,7 @@ public class Game extends JPanel implements MyListener {
     public void messageReceived() {
         try {
             List<String> opponentSymbol = opponentSymbol();
-            updateTheButtons(Integer.parseInt(opponentSymbol.get(0)), opponentSymbol.get(1));
+            updateButton(Integer.parseInt(opponentSymbol.get(0)), opponentSymbol.get(1));
             updateInfo();
             winnerChosen();
         } catch (NullPointerException | IOException ignored){}
@@ -141,16 +150,13 @@ public class Game extends JPanel implements MyListener {
             }
 
             if (dialogResult == JOptionPane.YES_OPTION){
-                //GameWindow.windowReset();
+//                resetTheButtons();
+                GameWindow.windowReset();
                 infoReset(InfoWindow.info);
                 ready = false;
                 gameReset = true;
                 Messenger.winner = null;
                 placed.clear();
-
-                //initializeButtons();
-                resetTheButtons();
-                initializeButtons();
             }
             else System.exit(0);
         }
@@ -161,10 +167,8 @@ public class Game extends JPanel implements MyListener {
     private void resetTheButtons() {
 
         for (int i = 0; i < 9; i++) {
-
             buttons[i].setText(" ");
             buttons[i].setBackground(Color.BLACK);
-
         }
 
         buttons[4].setFont(new Font("Arial", Font.PLAIN, 40));
@@ -186,10 +190,14 @@ public class Game extends JPanel implements MyListener {
 
     }
 
-    private void updateTheButtons(int where, String what) {
-        buttons[where].setFont(new Font("Arial", Font.PLAIN, 100));
+    private void updateButton(int where, String what) {
+        buttons[where].setFont(font);
         buttons[where].setForeground(Color.white);
         buttons[where].setText(what.toUpperCase());
-        buttons[where].setBackground(Color.BLACK);
+        //buttons[where].setBackground(Color.BLACK);
+
+//        if(!Arrays.asList(placed).contains(where)) {
+//            placed.add(where);
+//        }
     }
 }
