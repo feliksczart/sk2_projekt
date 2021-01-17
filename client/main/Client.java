@@ -1,18 +1,16 @@
 package main;
 
 import gui.GameWindow;
-import gui.InfoWindow;
+import serverConnection.Messenger;
 
 import java.io.IOException;
 
 public class Client {
 
     public static void main(String[] args) throws IOException {
-
-        new GameWindow();
-        MainMessenger.main(args);
-//        Game.messenger.addListener(new Game());
-        //new InfoWindow();
+        Messenger messenger = new Messenger(1111);
+        messenger.startReadThread();
+        Game game = new Game(messenger);
+        GameWindow gameWindow = new GameWindow(game);
     }
-
 }
