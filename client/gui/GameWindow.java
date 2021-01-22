@@ -1,11 +1,9 @@
 package gui;
 
-import main.Game;
+import mainGame.Game;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
-import java.net.Socket;
 
 public class GameWindow {
 
@@ -30,7 +28,7 @@ public class GameWindow {
         infoFrame = new JFrame("Info");
         infoFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         infoFrame.setBackground(Color.BLACK);
-        infoFrame.setSize(200, 170);
+        infoFrame.setSize(200, 200);
         infoFrame.setLocationRelativeTo(mainFrame);
         infoFrame.setResizable(false);
 
@@ -43,26 +41,29 @@ public class GameWindow {
     private void initializeComponents() {
         infoNorthPanel = new JPanel();
         infoNorthPanel.setLayout(new BoxLayout(infoNorthPanel, BoxLayout.PAGE_AXIS));
+        infoNorthPanel.setBackground(Color.black);
         infoFrame.setLayout(new BorderLayout());
         infoFrame.add(infoNorthPanel, BorderLayout.NORTH);
 
-        teamLabel = new JLabel("Team: -");
+        teamLabel = new JLabel("Team: " + game.getMessenger().getTeam());
         teamLabel.setFont(new Font("Arial", Font.PLAIN, 30));
+        teamLabel.setForeground(Color.white);
 
-        turnLabel = new JLabel("Turn: -");
+        turnLabel = new JLabel("Turn: " + game.getMessenger().getTurn());
         turnLabel.setFont(new Font("Arial", Font.PLAIN, 30));
+        turnLabel.setForeground(Color.white);
 
         readyButton = new JButton("Ready");
         readyButton.setFont(new Font("Arial", Font.PLAIN, 30));
+        readyButton.setBackground(Color.green);
         readyButton.addActionListener((e) -> {
             JButton button = (JButton) e.getSource();
             sendMessage("ready");
             button.setEnabled(false);
         });
-        infoFrame.add(readyButton, BorderLayout.SOUTH);
-
         infoNorthPanel.add(teamLabel);
         infoNorthPanel.add(turnLabel);
+        infoFrame.add(readyButton, BorderLayout.SOUTH);
 
         initializeButtons();
     }
@@ -71,13 +72,12 @@ public class GameWindow {
         buttons = new JButton[9];
         for(int i = 0; i < buttons.length; i++) {
             buttons[i] = new JButton("");
-            buttons[i].setFont(new Font("Arial", Font.PLAIN, 40));
+            buttons[i].setFont(new Font("Arial", Font.PLAIN, 100));
             buttons[i].setName(i + "");
             buttons[i].setBackground(Color.BLACK);
             buttons[i].setForeground(Color.WHITE);
             buttons[i].addActionListener((e) -> {
-                JButton button = (JButton) e.getSource();
-                sendMessage("vote " + button.getName());
+                game.buttonClicked(e);
             });
             mainFrame.add(buttons[i]);
         }
@@ -85,5 +85,9 @@ public class GameWindow {
 
     private void sendMessage(String msg) {
         game.sendMessage(msg);
+    }
+
+    public JButton[] getButtons(){
+        return buttons;
     }
 }
