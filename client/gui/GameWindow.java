@@ -60,6 +60,7 @@ public class GameWindow {
             JButton button = (JButton) e.getSource();
             sendMessage("ready");
             button.setEnabled(false);
+            button.setBackground(Color.black);
         });
         infoNorthPanel.add(teamLabel);
         infoNorthPanel.add(turnLabel);
@@ -91,6 +92,9 @@ public class GameWindow {
         if (!game.getWinner().equals("-")){
             resetButtons();
             displayWinner();
+            for(int i=0; i<9 ;i++){
+                game.getBoard()[i] = "-";
+            }
             game.waitSecond(2);
             resetGame();
         }
@@ -139,6 +143,10 @@ public class GameWindow {
     }
 
     private void resetGame(){
+        game.setWinner("-");
+        readyButton.setEnabled(true);
+        readyButton.setBackground(Color.green);
+        buttons[4].setFont(new Font("Arial", Font.PLAIN, 100));
         resetButtons();
         updateTeamLabel();
         updateTurnLabel();
