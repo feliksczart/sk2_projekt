@@ -9,7 +9,7 @@ public class GameWindow {
 
     private Game game;
     private JFrame mainFrame, infoFrame;
-    private JLabel teamLabel, turnLabel, winnerLabel;
+    private JLabel teamLabel, turnLabel;
     private JButton readyButton;
     private JButton[] buttons;
 
@@ -27,7 +27,7 @@ public class GameWindow {
 
         infoFrame = new JFrame("Info");
         infoFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        infoFrame.setSize(200, 240);
+        infoFrame.setSize(200, 200);
         infoFrame.setBackground(Color.BLACK);
         infoFrame.setLocationRelativeTo(mainFrame);
         infoFrame.setResizable(false);
@@ -53,10 +53,6 @@ public class GameWindow {
         turnLabel.setFont(new Font("Arial", Font.PLAIN, 30));
         turnLabel.setForeground(Color.white);
 
-        winnerLabel = new JLabel("Winner: " + game.getWinner());
-        winnerLabel.setFont(new Font("Arial", Font.PLAIN, 30));
-        winnerLabel.setForeground(Color.white);
-
         readyButton = new JButton("Ready");
         readyButton.setFont(new Font("Arial", Font.PLAIN, 30));
         readyButton.setBackground(Color.green);
@@ -67,7 +63,6 @@ public class GameWindow {
         });
         infoNorthPanel.add(teamLabel);
         infoNorthPanel.add(turnLabel);
-        infoNorthPanel.add(winnerLabel);
         infoFrame.add(readyButton, BorderLayout.SOUTH);
 
         initializeButtons();
@@ -92,6 +87,13 @@ public class GameWindow {
         updateTeamLabel();
         updateTurnLabel();
         updateButtons();
+
+        if (!game.getWinner().equals("-")){
+            resetButtons();
+            displayWinner();
+            game.waitSecond(2);
+            resetGame();
+        }
     }
 
     private void updateTeamLabel(){
@@ -116,8 +118,30 @@ public class GameWindow {
         }
     }
 
+    private void resetButtons(){
+        for (int i=0; i<9; i++) {
+            buttons[i].setBackground(Color.black);
+            buttons[i].setText("");
+        }
+    }
+
     private void sendMessage(String msg) {
         game.sendMessage(msg);
+    }
+
+    private void displayWinner(){
+        Color lightBlue = new Color(137,209,254);
+        if (game.getWinner().equals("X")) buttons[4].setBackground(Color.RED);
+        else buttons[4].setBackground(lightBlue);
+        buttons[4].setFont(new Font("Arial", Font.PLAIN, 30));
+        buttons[4].setForeground(Color.BLACK);
+        buttons[4].setText("Winner: " + game.getWinner());
+    }
+
+    private void resetGame(){
+        resetButtons();
+        updateTeamLabel();
+        updateTurnLabel();
     }
 
     public JButton[] getButtons(){

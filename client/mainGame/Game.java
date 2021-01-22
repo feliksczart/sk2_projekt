@@ -43,14 +43,6 @@ public class Game {
     public void buttonClicked(ActionEvent e){
         JButton button = (JButton) e.getSource();
         sendMessage("vote " + button.getName());
-
-        try {
-            TimeUnit.MICROSECONDS.sleep(10);
-        } catch (InterruptedException interruptedException) {
-            interruptedException.printStackTrace();
-        }
-
-        //button.setText(messenger.getPlacedSymbol());
     }
 
     public Messenger getMessenger() {
@@ -99,5 +91,13 @@ public class Game {
 
     public String[] getBoard(){
         return board;
+    }
+
+    public void waitSecond(int time){
+        try {
+            TimeUnit.SECONDS.sleep(time);
+        } catch (InterruptedException interruptedException) {
+            interruptedException.printStackTrace();
+        }
     }
 }
