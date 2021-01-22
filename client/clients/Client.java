@@ -15,8 +15,5 @@ public class Client {
         game.setGameWindow(gameWindow);
         messenger.setGame(game);
         messenger.startReadThread();
-
-//        GameUpdate gameUpdate = new GameUpdate(game);
-//        gameUpdate.startUpdateThread();
     }
 }
