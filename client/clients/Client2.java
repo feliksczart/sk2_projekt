@@ -2,6 +2,7 @@ package clients;
 
 import gui.GameWindow;
 import mainGame.Game;
+import mainGame.GameUpdate;
 import serverConnection.Messenger;
 
 import java.io.IOException;
@@ -13,5 +14,7 @@ public class Client2 {
         messenger.startReadThread();
         Game game = new Game(messenger);
         GameWindow gameWindow = new GameWindow(game);
+        GameUpdate gameUpdate = new GameUpdate(game);
+        gameUpdate.startUpdateThread();
     }
 }

@@ -12,16 +12,18 @@ public class GameUpdate {
     }
 
     public void updateButton(){
-        String buttonName = game.getMessenger().getPlacedSymbol().get(0);
-        String placedSymbol = game.getMessenger().getPlacedSymbol().get(1);
-        JButton[] buttons = game.getGameWindow().getButtons();
+        try {
+            String buttonName = game.getMessenger().getPlacedSymbol().get(0);
+            String placedSymbol = game.getMessenger().getPlacedSymbol().get(1);
+            JButton[] buttons = game.getGameWindow().getButtons();
 
-        buttons[Integer.parseInt(buttonName)].setText(placedSymbol);
+            buttons[Integer.parseInt(buttonName)].setText(placedSymbol);
+        } catch (NullPointerException ignored){}
     }
 
-//    public void startUpdateThread(){
-//        new Thread(() -> {
-//            updateButton();
-//        }).start();
-//    }
+    public void startUpdateThread(){
+        new Thread(() -> {
+            updateButton();
+        }).start();
+    }
 }

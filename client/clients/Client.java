@@ -15,5 +15,6 @@ public class Client {
         Game game = new Game(messenger);
         GameWindow gameWindow = new GameWindow(game);
         GameUpdate gameUpdate = new GameUpdate(game);
+        gameUpdate.startUpdateThread();
     }
 }
