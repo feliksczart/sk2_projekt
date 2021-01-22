@@ -9,7 +9,7 @@ public class GameWindow {
 
     private Game game;
     private JFrame mainFrame, infoFrame;
-    private JLabel teamLabel, turnLabel;
+    private JLabel teamLabel, turnLabel, winnerLabel;
     private JButton readyButton;
     private JButton[] buttons;
 
@@ -27,8 +27,8 @@ public class GameWindow {
 
         infoFrame = new JFrame("Info");
         infoFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        infoFrame.setSize(200, 240);
         infoFrame.setBackground(Color.BLACK);
-        infoFrame.setSize(200, 200);
         infoFrame.setLocationRelativeTo(mainFrame);
         infoFrame.setResizable(false);
 
@@ -45,13 +45,17 @@ public class GameWindow {
         infoFrame.setLayout(new BorderLayout());
         infoFrame.add(infoNorthPanel, BorderLayout.NORTH);
 
-        teamLabel = new JLabel("Team: " + game.getMessenger().getTeam());
+        teamLabel = new JLabel("Team: " + game.getTeam());
         teamLabel.setFont(new Font("Arial", Font.PLAIN, 30));
         teamLabel.setForeground(Color.white);
 
-        turnLabel = new JLabel("Turn: " + game.getMessenger().getTurn());
+        turnLabel = new JLabel("Turn: " + game.getTurn());
         turnLabel.setFont(new Font("Arial", Font.PLAIN, 30));
         turnLabel.setForeground(Color.white);
+
+        winnerLabel = new JLabel("Winner: " + game.getWinner());
+        winnerLabel.setFont(new Font("Arial", Font.PLAIN, 30));
+        winnerLabel.setForeground(Color.white);
 
         readyButton = new JButton("Ready");
         readyButton.setFont(new Font("Arial", Font.PLAIN, 30));
@@ -63,6 +67,7 @@ public class GameWindow {
         });
         infoNorthPanel.add(teamLabel);
         infoNorthPanel.add(turnLabel);
+        infoNorthPanel.add(winnerLabel);
         infoFrame.add(readyButton, BorderLayout.SOUTH);
 
         initializeButtons();
@@ -80,6 +85,34 @@ public class GameWindow {
                 game.buttonClicked(e);
             });
             mainFrame.add(buttons[i]);
+        }
+    }
+
+    public void redraw(){
+        updateTeamLabel();
+        updateTurnLabel();
+        updateButtons();
+    }
+
+    private void updateTeamLabel(){
+        teamLabel.setText("Team: " + game.getTeam());
+    }
+
+    private void updateTurnLabel(){
+        turnLabel.setText("Turn: " + game.getTurn());
+    }
+
+    private void updateButtons(){
+        for (int i=0; i<9; i++){
+            if(!game.getBoard()[i].equals("-")) {
+                String sign = game.getBoard()[i];
+                Color lightBlue = new Color(137,209,254);
+
+                if (sign.equals("X")) buttons[i].setForeground(Color.RED);
+                else buttons[i].setForeground(lightBlue);
+
+                buttons[i].setText(sign);
+            }
         }
     }
 
