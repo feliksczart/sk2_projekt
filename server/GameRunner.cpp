@@ -10,7 +10,6 @@ void GameRunner::run(Game* game, bool* stop, bool* everyone_voted) {
 
     pthread_mutex_lock(mutex);
     if(*stop) {
-//        std::terminate();
         return;
     }
 //    game->reset_game();
@@ -25,9 +24,7 @@ void GameRunner::run(Game* game, bool* stop, bool* everyone_voted) {
         current_time = std::chrono::duration_cast<std::chrono::milliseconds>(
                 std::chrono::system_clock::now().time_since_epoch()).count();
         while(((current_time - time_started) < Game::ROUND_DURATION_SECONDS * 1000) && !(*everyone_voted)) {
-            //FIXME with everyone_voted game behaves like Flash
             if(*stop) {
-//                std::terminate();
                 return;
             }
             current_time = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -37,7 +34,6 @@ void GameRunner::run(Game* game, bool* stop, bool* everyone_voted) {
         *everyone_voted = false;
 
         if(*stop) {
-//            std::terminate();
             return;
         }
         int result = game->process_poll();

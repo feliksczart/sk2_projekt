@@ -214,6 +214,9 @@ void Game::reconnect_team(char team) {
 
 void Game::reconnect_team(const std::vector<int>* team) {
     auto* v = new std::vector<int>;
+    if(team->size() == 1) {
+        game_manager->unicast(team->at(0), "reset");
+    }
     for(auto p : *team) {
         bool player_present = game_manager->remove_player(p, true);
         if(player_present) {
@@ -281,6 +284,7 @@ void Game::run() {
     delete game_runner_thread;
     game_runner_thread = new std::thread(GameRunner::run, this, kill_runner, everyone_voted);
     game_runner_thread->detach();
+    send_to_all("reset");
     std::cout << "start" << std::endl;
 }
 
