@@ -137,7 +137,6 @@ public class GameWindow {
         buttons[4].setFont(new Font("Arial", Font.PLAIN, 30));
         buttons[4].setForeground(Color.BLACK);
         buttons[4].setText("Winner: " + game.getWinner());
-        game.setPlaceAfrerWinner(true);
     }
 
     private void resetGame(){

@@ -15,7 +15,6 @@ public class Game {
     private Messenger messenger;
     private String[] board;
     private String winner = "-";
-    private boolean placeAfrerWinner = false;
 
     public Game(Messenger messenger) {
         this.messenger = messenger;
@@ -30,13 +29,8 @@ public class Game {
         String[] args = cmd.split(" ");
 
         if (args[0].equals("joined")) setTeam(args[1].toUpperCase());
-        else if (args[0].equals("turn")){
-            setTurn(args[1].toUpperCase());
-            if (getPlaceAfterWinner()) setPlaceAfrerWinner(false);
-        }
-        else if (args[0].equals("placed")){
-            if (!getPlaceAfterWinner()) setPlacedSymbol(Integer.parseInt(args[1]), args[2].toUpperCase());
-        }
+        else if (args[0].equals("turn")) setTurn(args[1].toUpperCase());
+        else if (args[0].equals("placed")) setPlacedSymbol(Integer.parseInt(args[1]), args[2].toUpperCase());
         else if (args[0].equals("winner")) setWinner(args[1].toUpperCase());
         gameWindow.redraw();
     }
@@ -100,13 +94,5 @@ public class Game {
         } catch (InterruptedException interruptedException) {
             interruptedException.printStackTrace();
         }
-    }
-
-    public void setPlaceAfrerWinner(boolean x){
-        this.placeAfrerWinner = x;
-    }
-
-    public boolean getPlaceAfterWinner(){
-        return placeAfrerWinner;
     }
 }
