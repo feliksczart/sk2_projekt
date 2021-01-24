@@ -4,6 +4,7 @@ import gui.GameWindow;
 import serverConnection.Messenger;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.concurrent.TimeUnit;
 
@@ -35,13 +36,22 @@ public class Game {
         }
         else if (args[0].equals("turn")) setTurn(args[1].toUpperCase());
         else if (args[0].equals("placed")) setPlacedSymbol(Integer.parseInt(args[1]), args[2].toUpperCase());
-        else if (args[0].equals("winner")) setWinner(args[1].toUpperCase());
+        else if (args[0].equals("winner")) {
+            if (args[1].equals("-")) setWinner("Draw");
+            else setWinner(args[1].toUpperCase());
+        }
         gameWindow.redraw();
     }
 
     public void buttonClicked(ActionEvent e) {
         JButton button = (JButton) e.getSource();
         sendMessage("vote " + button.getName());
+
+        if (getTeam() == getTurn()) {
+            button.setFont(new Font("Serif",Font.PLAIN,50));
+            button.setForeground(Color.yellow);
+            button.setText(getTurn());
+        }
     }
 
     public Messenger getMessenger() {

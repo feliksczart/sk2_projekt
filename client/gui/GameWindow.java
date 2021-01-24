@@ -114,6 +114,7 @@ public class GameWindow {
                 if (sign.equals("X")) buttons[i].setForeground(Color.RED);
                 else buttons[i].setForeground(lightBlue);
 
+                buttons[i].setFont(new Font("Arial",Font.PLAIN,100));
                 buttons[i].setText(sign);
             }
         }
@@ -133,10 +134,13 @@ public class GameWindow {
     private void displayWinner(){
         Color lightBlue = new Color(137,209,254);
         if (game.getWinner().equals("X")) buttons[4].setBackground(Color.RED);
-        else buttons[4].setBackground(lightBlue);
+        else if (game.getWinner().equals("O")) buttons[4].setBackground(lightBlue);
+        else buttons[4].setBackground(Color.yellow);
         buttons[4].setFont(new Font("Arial", Font.PLAIN, 30));
         buttons[4].setForeground(Color.BLACK);
-        buttons[4].setText("Winner: " + game.getWinner());
+
+        if (game.getWinner().equals("Draw")) buttons[4].setText(game.getWinner());
+        else buttons[4].setText("Winner: " + game.getWinner());
     }
 
     public void resetGame(){
