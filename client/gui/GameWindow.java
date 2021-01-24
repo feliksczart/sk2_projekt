@@ -92,9 +92,6 @@ public class GameWindow {
         if (!game.getWinner().equals("-")){
             resetButtons();
             displayWinner();
-            for(int i=0; i<9 ;i++){
-                game.getBoard()[i] = "-";
-            }
             game.waitSecond(2);
             resetGame();
         }
@@ -140,6 +137,7 @@ public class GameWindow {
         buttons[4].setFont(new Font("Arial", Font.PLAIN, 30));
         buttons[4].setForeground(Color.BLACK);
         buttons[4].setText("Winner: " + game.getWinner());
+        game.setPlaceAfrerWinner(true);
     }
 
     private void resetGame(){
@@ -147,6 +145,9 @@ public class GameWindow {
         readyButton.setEnabled(true);
         readyButton.setBackground(Color.green);
         buttons[4].setFont(new Font("Arial", Font.PLAIN, 100));
+        for(int i=0; i<9 ;i++){
+            game.getBoard()[i] = "-";
+        }
         resetButtons();
         updateTeamLabel();
         updateTurnLabel();
