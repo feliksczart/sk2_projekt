@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <thread>
 #include <iostream>
+#include <random>
 #include "Game.h"
 
 std::vector<int> cross_team;
@@ -313,6 +314,25 @@ bool Game::both_teams_ready() const {
 Game::~Game() {
     delete kill_runner;
     delete everyone_voted;
+}
+
+void Game::reconnect_players() {
+    auto* players = new std::vector<int>;
+    for(int p : cross_team) {
+        players->push_back(p);
+    }
+    for(int p : circle_team) {
+        players->push_back(p);
+    }
+    cross_team.clear();
+    circle_team.clear();
+
+    auto rd = std::random_device {};
+    auto rng = std::default_random_engine { rd() };
+    std::shuffle(std::begin(*players), std::end(*players), rng);
+    for(int p : *players) {
+        add_player(p);
+    }
 }
 
 

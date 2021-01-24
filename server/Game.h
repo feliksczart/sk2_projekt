@@ -72,6 +72,7 @@ public:
     void run();
     void reconnect_team(const std::vector<int> *team);
     std::vector<int> *get_free_fields();
+    void reconnect_players();
 
     Game(GameManager *pManager);
     ~Game();
