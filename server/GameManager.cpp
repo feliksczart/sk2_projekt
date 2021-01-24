@@ -94,7 +94,7 @@ void GameManager::execute_command(int player, const std::string& command) {
         }
     } else if(cmd == "ready") {
         Game* game = find_game_by_player(player);
-//        if(game->both_teams_ready()) return;
+        if(game->both_teams_ready()) return;
         char c = game->get_team(player);
         game->ready(c);
         game->send_to_all("ready " + std::string(1, c));
