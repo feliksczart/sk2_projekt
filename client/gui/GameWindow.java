@@ -119,7 +119,7 @@ public class GameWindow {
         }
     }
 
-    private void resetButtons(){
+    public void resetButtons(){
         for (int i=0; i<9; i++) {
             buttons[i].setBackground(Color.black);
             buttons[i].setText("");
@@ -139,7 +139,7 @@ public class GameWindow {
         buttons[4].setText("Winner: " + game.getWinner());
     }
 
-    private void resetGame(){
+    public void resetGame(){
         game.setWinner("-");
         readyButton.setEnabled(true);
         readyButton.setBackground(Color.green);

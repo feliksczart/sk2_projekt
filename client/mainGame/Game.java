@@ -28,7 +28,11 @@ public class Game {
     public void executeCommand(String cmd) {
         String[] args = cmd.split(" ");
 
-        if (args[0].equals("joined")) setTeam(args[1].toUpperCase());
+        if (args[0].equals("joined")){
+            setTeam(args[1].toUpperCase());
+            gameWindow.resetButtons();
+            gameWindow.resetGame();
+        }
         else if (args[0].equals("turn")) setTurn(args[1].toUpperCase());
         else if (args[0].equals("placed")) setPlacedSymbol(Integer.parseInt(args[1]), args[2].toUpperCase());
         else if (args[0].equals("winner")) setWinner(args[1].toUpperCase());
