@@ -12,10 +12,12 @@ import java.util.concurrent.TimeUnit;
 public class Game {
     private String turn;
     private String team;
+    private String percent = "-";
     private GameWindow gameWindow;
     private Messenger messenger;
     private String[] board;
     private String winner = "-";
+    private int placeholdButton;
 
     public Game(Messenger messenger) {
         this.messenger = messenger;
@@ -40,6 +42,7 @@ public class Game {
             if (args[1].equals("-")) setWinner("Draw");
             else setWinner(args[1].toUpperCase());
         }
+        else if (args[0].equals("voted")) setPercent(args[1]);
         gameWindow.redraw();
     }
 
@@ -47,10 +50,11 @@ public class Game {
         JButton button = (JButton) e.getSource();
         sendMessage("vote " + button.getName());
 
-        if (getTeam() == getTurn()) {
+        if (getTeam().equals(getTurn())) {
             button.setFont(new Font("Serif",Font.PLAIN,50));
             button.setForeground(Color.yellow);
             button.setText(getTurn());
+            setPlaceholdButton(Integer.parseInt(button.getName()));
         }
     }
 
@@ -84,6 +88,7 @@ public class Game {
 
     public void setPlacedSymbol(int buttonName, String placedSymbol) {
         board[buttonName] = placedSymbol;
+        gameWindow.getButtons()[getPlaceholdButton()].setText("");
     }
 
     public void setWinner(String winner) {
@@ -92,6 +97,22 @@ public class Game {
 
     public String getWinner() {
         return winner;
+    }
+
+    public void setPercent(String percent) {
+        this.percent = percent;
+    }
+
+    public String getPercent() {
+        return percent;
+    }
+
+    public void setPlaceholdButton(int placeholdButton) {
+        this.placeholdButton = placeholdButton;
+    }
+
+    public int getPlaceholdButton() {
+        return placeholdButton;
     }
 
     public void sendMessage(String msg) {
