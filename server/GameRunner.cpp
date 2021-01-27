@@ -45,4 +45,5 @@ void GameRunner::run(Game* game, bool* stop, bool* everyone_voted) {
         }
         pthread_mutex_unlock(mutex);
     }
+    game->reconnect_players();
 }
