@@ -6,6 +6,18 @@
 
 #IncludeRegexTransform: 
 
+/home/mister_hz/sharaga/sk2/sk2_projekt/server/Game.cpp
+algorithm
+-
+thread
+-
+iostream
+-
+random
+-
+Game.h
+/home/mister_hz/sharaga/sk2/sk2_projekt/server/Game.h
+
 /home/mister_hz/sharaga/sk2/sk2_projekt/server/Game.h
 vector
 -
@@ -18,16 +30,6 @@ string
 thread
 -
 
-/home/mister_hz/sharaga/sk2/sk2_projekt/server/GameManager.cpp
-algorithm
--
-iostream
--
-GameManager.h
-/home/mister_hz/sharaga/sk2/sk2_projekt/server/GameManager.h
-server.h
-/home/mister_hz/sharaga/sk2/sk2_projekt/server/server.h
-
 /home/mister_hz/sharaga/sk2/sk2_projekt/server/GameManager.h
 Game.h
 /home/mister_hz/sharaga/sk2/sk2_projekt/server/Game.h
@@ -37,6 +39,4 @@ string
 /home/mister_hz/sharaga/sk2/sk2_projekt/server/GameRunner.h
 Game.h
 /home/mister_hz/sharaga/sk2/sk2_projekt/server/Game.h
-
-/home/mister_hz/sharaga/sk2/sk2_projekt/server/server.h
 

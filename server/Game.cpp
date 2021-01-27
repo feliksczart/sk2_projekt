@@ -10,7 +10,7 @@
 
 std::vector<int> cross_team;
 std::vector<int> circle_team;
-char field[9];
+char board[9];
 int turns_made = 0;
 
 std::vector<std::pair<int, int>*> votes;
@@ -33,7 +33,7 @@ char Game::add_player(int player) {
     game_manager->unicast(player, "joined " + std::string(1, team));
     game_manager->unicast(player, "turn " + std::string(1, turn));
     for(int i = 0; i < 9; i++) {
-        char c = field[i];
+        char c = board[i];
         if(c != '\0') {
             game_manager->unicast(player, "placed " + std::to_string(i) + " " + std::string(1, c));
         }
@@ -48,7 +48,7 @@ bool Game::is_full() {
 const int *Game::get_win_position() {
     for(auto i : WIN_POSITIONS) {
         int* p = const_cast<int *>(i);
-        if(field[p[0]] == field[p[1]] && field[p[2]] == field[p[1]] && field[p[0]] != 0) {
+        if(board[p[0]] == board[p[1]] && board[p[2]] == board[p[1]] && board[p[0]] != 0) {
             return p;
         }
     }
@@ -60,17 +60,17 @@ bool Game::someone_won() {
 }
 
 char Game::get_winner() {
-    return field[get_win_position()[0]];
+    return board[get_win_position()[0]];
 }
 
 int Game::place(int position, char c) {
     int result;
 
-    if(field[position] == '\0') {
-        field[position] = c;
+    if(board[position] == '\0') {
+        board[position] = c;
         result = ++turns_made;
     } else {
-        throw std::logic_error("field not empty");
+        throw std::logic_error("board not empty");
     }
 
     if(turns_made >= 5 && someone_won()) {
@@ -122,7 +122,7 @@ char Game::get_team(int player) {
 }
 
 void Game::reset_game() {
-    for(char & i : field) {
+    for(char & i : board) {
         i = '\0';
     }
     turn = rand() % 2 ? 'x' : 'o';
@@ -141,7 +141,7 @@ int Game::process_vote(int player, int position) {
         return -1;
     } else if(position > 8 || position < 0) {
         return -1;
-    } else if(field[position] != '\0') {
+    } else if(board[position] != '\0') {
         return -1;
     } else if(player_voted(player)){
         return -1;
@@ -162,9 +162,17 @@ int Game::process_vote(int player, int position) {
             votes.push_back(p);
         }
         players_voted.push_back(player);
-        send_to_all("voted " + std::to_string(player) + " " + std::to_string(position));
+//        send_to_all("voted " + std::to_string(player) + " " + std::to_string(position));
 
         auto* team_vector = turn == 'x' ? &cross_team : &circle_team;
+
+        int players_voted_count = 0;
+        for(auto p : votes) {
+            players_voted_count += p->second;
+        }
+        int percentage = (players_voted_count * 100.0f) / team_vector->size();
+        game_manager->multicast(team_vector, "voted " + std::to_string(percentage));
+
         if(players_voted.size() == team_vector->size()) {
             *everyone_voted = true;
         }
@@ -240,11 +248,25 @@ void Game::send_to_all(const std::string& msg) {
 }
 
 int Game::process_poll() {
-//    sort(votes.begin(), votes.end(), sort_votes);
     int max_vote_count = -1;
     auto* choose_from = new std::vector<int>;
 
-    for(auto* p : votes) {
+    /*int vote_size = votes.size();
+    if(vote_size == 0) {
+        auto* free_fields = get_free_fields();
+        for(auto field : *free_fields) {
+            auto& current_team = turn == 'x' ? cross_team : circle_team;
+            game_manager->multicast(&current_team, "voted " + std::string(1, turn) + " " + std::to_string(field) + " 0");
+        }
+        delete free_fields;
+    } else {
+        for(auto p : votes) {
+            auto& current_team = turn == 'x' ? cross_team : circle_team;
+            game_manager->multicast(&current_team, "voted " + std::string(1, turn) + " " + std::to_string(p->first) + " " + std::to_string(p->second));
+        }
+    }*/
+
+     for(auto* p : votes) {
         int vote_count = p->second;
         int position = p->first;
         if(vote_count > max_vote_count) {
@@ -292,7 +314,7 @@ void Game::run() {
 std::vector<int> *Game::get_free_fields() {
     auto* f = new std::vector<int>;
     for(int i = 0; i < 9; i++) {
-        if(field[i] == '\0') {
+        if(board[i] == '\0') {
             f->push_back(i);
         }
     }

@@ -21,7 +21,7 @@ private:
 
     std::vector<std::pair<int, int>*> votes;
     std::vector<int> players_voted;
-    char field[9]{};
+    char board[9]{};
 
     char turn{};
     int turns_made{};
