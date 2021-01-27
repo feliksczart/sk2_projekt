@@ -9,7 +9,7 @@ public class GameWindow {
 
     private Game game;
     private JFrame mainFrame, infoFrame;
-    private JLabel teamLabel, turnLabel;
+    private JLabel teamLabel, turnLabel, votingLabel;
     private JButton readyButton;
     private JButton[] buttons;
 
@@ -27,7 +27,7 @@ public class GameWindow {
 
         infoFrame = new JFrame("Info");
         infoFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        infoFrame.setSize(200, 200);
+        infoFrame.setSize(200, 236);
         infoFrame.setBackground(Color.BLACK);
         infoFrame.setLocationRelativeTo(mainFrame);
         infoFrame.setResizable(false);
@@ -53,6 +53,10 @@ public class GameWindow {
         turnLabel.setFont(new Font("Arial", Font.PLAIN, 30));
         turnLabel.setForeground(Color.white);
 
+        votingLabel = new JLabel("Voting: ");
+        votingLabel.setFont(new Font("Arial", Font.PLAIN, 30));
+        votingLabel.setForeground(Color.white);
+
         readyButton = new JButton("Ready");
         readyButton.setFont(new Font("Arial", Font.PLAIN, 30));
         readyButton.setBackground(Color.green);
@@ -64,6 +68,7 @@ public class GameWindow {
         });
         infoNorthPanel.add(teamLabel);
         infoNorthPanel.add(turnLabel);
+        infoNorthPanel.add(votingLabel);
         infoFrame.add(readyButton, BorderLayout.SOUTH);
 
         initializeButtons();
