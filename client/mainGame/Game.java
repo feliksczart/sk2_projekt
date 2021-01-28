@@ -40,7 +40,7 @@ public class Game {
         }
         else if (args[0].equals("turn")) setTurn(args[1].toUpperCase());
         else if (args[0].equals("placed")) {
-            if (firstVote){
+            if (getFirstVote()){
                 setPlacedSymbol(Integer.parseInt(args[1]), args[2].toUpperCase());
             }
         }
@@ -59,6 +59,7 @@ public class Game {
         JButton button = (JButton) e.getSource();
         sendMessage("vote " + button.getName());
 
+        //rysowanie placeholdera
         if (getTeam().equals(getTurn())) {
             button.setFont(new Font("Serif",Font.PLAIN,50));
             button.setForeground(Color.yellow);

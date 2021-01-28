@@ -69,6 +69,7 @@ public class GameWindow {
             button.setEnabled(false);
             game.setFirstVote(true);
             button.setBackground(Color.black);
+            setButtonsEnabled();
         });
         infoNorthPanel.add(teamLabel);
         infoNorthPanel.add(turnLabel);
@@ -91,6 +92,7 @@ public class GameWindow {
             });
             mainFrame.add(buttons[i]);
         }
+        setButtonsDisabled();
     }
 
     public void redraw(){
@@ -178,9 +180,22 @@ public class GameWindow {
         resetButtons();
         updateTeamLabel();
         updateTurnLabel();
+        setButtonsDisabled();
     }
 
     public JButton[] getButtons(){
         return buttons;
+    }
+
+    void setButtonsDisabled(){
+        for (int i=0; i<9; i++){
+            getButtons()[i].setEnabled(false);
+        }
+    }
+
+    void setButtonsEnabled(){
+        for (int i=0; i<9; i++){
+            getButtons()[i].setEnabled(true);
+        }
     }
 }
