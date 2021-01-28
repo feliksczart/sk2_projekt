@@ -14,6 +14,7 @@ public class Client {
         GameWindow gameWindow = new GameWindow(game);
         game.setGameWindow(gameWindow);
         messenger.setGame(game);
+        //uruchamiamy wątek, który na bieżąco odczytuje wiadomości z serwera
         messenger.startReadThread();
     }
 }

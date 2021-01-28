@@ -29,6 +29,7 @@ public class Game {
         }
     }
 
+    //egzekfowanie wiadomości przychodzących z serwera
     public void executeCommand(String cmd) {
         String[] args = cmd.split(" ");
 
@@ -49,9 +50,11 @@ public class Game {
         }
         else if (args[0].equals("voted")) setPercent(args[1]);
 
+        //z każdą kolejną wiadomością z serwera przerysowywane jest okno gry
         gameWindow.redraw();
     }
 
+    //naciskając guzik w gameWindow, wysyłamy do serwera informację o oddanym głosie
     public void buttonClicked(ActionEvent e) {
         JButton button = (JButton) e.getSource();
         sendMessage("vote " + button.getName());
