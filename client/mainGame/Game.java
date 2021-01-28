@@ -18,6 +18,7 @@ public class Game {
     private String[] board;
     private String winner = "-";
     private int placeholdButton;
+    private boolean firstVote = false;
 
     public Game(Messenger messenger) {
         this.messenger = messenger;
@@ -37,12 +38,17 @@ public class Game {
             gameWindow.resetGame();
         }
         else if (args[0].equals("turn")) setTurn(args[1].toUpperCase());
-        else if (args[0].equals("placed")) setPlacedSymbol(Integer.parseInt(args[1]), args[2].toUpperCase());
+        else if (args[0].equals("placed")) {
+            if (firstVote){
+                setPlacedSymbol(Integer.parseInt(args[1]), args[2].toUpperCase());
+            }
+        }
         else if (args[0].equals("winner")) {
             if (args[1].equals("-")) setWinner("Draw");
             else setWinner(args[1].toUpperCase());
         }
         else if (args[0].equals("voted")) setPercent(args[1]);
+
         gameWindow.redraw();
     }
 
@@ -89,6 +95,7 @@ public class Game {
     public void setPlacedSymbol(int buttonName, String placedSymbol) {
         board[buttonName] = placedSymbol;
         gameWindow.getButtons()[getPlaceholdButton()].setText("");
+        setPercent("-");
     }
 
     public void setWinner(String winner) {
@@ -130,4 +137,7 @@ public class Game {
             interruptedException.printStackTrace();
         }
     }
+
+    public boolean getFirstVote(){return firstVote;}
+    public boolean setFirstVote(boolean firstVote){return this.firstVote = firstVote;}
 }

@@ -64,6 +64,7 @@ public class GameWindow {
             JButton button = (JButton) e.getSource();
             sendMessage("ready");
             button.setEnabled(false);
+            game.setFirstVote(true);
             button.setBackground(Color.black);
         });
         infoNorthPanel.add(teamLabel);
@@ -162,6 +163,7 @@ public class GameWindow {
     public void resetGame(){
         game.setWinner("-");
         game.setPercent("-");
+        game.setFirstVote(false);
         readyButton.setEnabled(true);
         readyButton.setBackground(Color.green);
         buttons[4].setFont(new Font("Arial", Font.PLAIN, 100));
