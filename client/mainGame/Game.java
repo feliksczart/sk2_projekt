@@ -18,6 +18,7 @@ public class Game {
     private String[] board;
     private String winner = "-";
     private int placeholdButton;
+    private boolean firstVote = false;
 
     public Game(Messenger messenger) {
         this.messenger = messenger;
@@ -28,6 +29,7 @@ public class Game {
         }
     }
 
+    //egzekfowanie wiadomości przychodzących z serwera
     public void executeCommand(String cmd) {
         String[] args = cmd.split(" ");
 
@@ -37,19 +39,27 @@ public class Game {
             gameWindow.resetGame();
         }
         else if (args[0].equals("turn")) setTurn(args[1].toUpperCase());
-        else if (args[0].equals("placed")) setPlacedSymbol(Integer.parseInt(args[1]), args[2].toUpperCase());
+        else if (args[0].equals("placed")) {
+            if (getFirstVote()){
+                setPlacedSymbol(Integer.parseInt(args[1]), args[2].toUpperCase());
+            }
+        }
         else if (args[0].equals("winner")) {
             if (args[1].equals("-")) setWinner("Draw");
             else setWinner(args[1].toUpperCase());
         }
         else if (args[0].equals("voted")) setPercent(args[1]);
+
+        //z każdą kolejną wiadomością z serwera przerysowywane jest okno gry
         gameWindow.redraw();
     }
 
+    //naciskając guzik w gameWindow, wysyłamy do serwera informację o oddanym głosie
     public void buttonClicked(ActionEvent e) {
         JButton button = (JButton) e.getSource();
         sendMessage("vote " + button.getName());
 
+        //rysowanie placeholdera
         if (getTeam().equals(getTurn())) {
             button.setFont(new Font("Serif",Font.PLAIN,50));
             button.setForeground(Color.yellow);
@@ -89,6 +99,7 @@ public class Game {
     public void setPlacedSymbol(int buttonName, String placedSymbol) {
         board[buttonName] = placedSymbol;
         gameWindow.getButtons()[getPlaceholdButton()].setText("");
+        setPercent("-");
     }
 
     public void setWinner(String winner) {
@@ -130,4 +141,7 @@ public class Game {
             interruptedException.printStackTrace();
         }
     }
+
+    public boolean getFirstVote(){return firstVote;}
+    public boolean setFirstVote(boolean firstVote){return this.firstVote = firstVote;}
 }

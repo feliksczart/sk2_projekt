@@ -4,6 +4,7 @@ import mainGame.Game;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
 
 public class GameWindow {
 
@@ -15,6 +16,7 @@ public class GameWindow {
 
     private JPanel infoNorthPanel;
 
+    //inicjalizacja okien gry
     public GameWindow(Game game){
         this.game = game;
         mainFrame = new JFrame("Tic Tac Toe");
@@ -38,6 +40,7 @@ public class GameWindow {
         infoFrame.setVisible(true);
     }
 
+    //inicjalizacja komponentów okna info
     private void initializeComponents() {
         infoNorthPanel = new JPanel();
         infoNorthPanel.setLayout(new BoxLayout(infoNorthPanel, BoxLayout.PAGE_AXIS));
@@ -64,7 +67,9 @@ public class GameWindow {
             JButton button = (JButton) e.getSource();
             sendMessage("ready");
             button.setEnabled(false);
+            game.setFirstVote(true);
             button.setBackground(Color.black);
+            setButtonsEnabled();
         });
         infoNorthPanel.add(teamLabel);
         infoNorthPanel.add(turnLabel);
@@ -87,6 +92,7 @@ public class GameWindow {
             });
             mainFrame.add(buttons[i]);
         }
+        setButtonsDisabled();
     }
 
     public void redraw(){
@@ -121,6 +127,7 @@ public class GameWindow {
         }
     }
 
+    //update buttonów na podstawie board
     private void updateButtons(){
         for (int i=0; i<9; i++){
             if(!game.getBoard()[i].equals("-")) {
@@ -143,6 +150,7 @@ public class GameWindow {
         }
     }
 
+    //wysłanie wiadomości do serwera
     private void sendMessage(String msg) {
         game.sendMessage(msg);
     }
@@ -162,6 +170,7 @@ public class GameWindow {
     public void resetGame(){
         game.setWinner("-");
         game.setPercent("-");
+        game.setFirstVote(false);
         readyButton.setEnabled(true);
         readyButton.setBackground(Color.green);
         buttons[4].setFont(new Font("Arial", Font.PLAIN, 100));
@@ -171,9 +180,22 @@ public class GameWindow {
         resetButtons();
         updateTeamLabel();
         updateTurnLabel();
+        setButtonsDisabled();
     }
 
     public JButton[] getButtons(){
         return buttons;
+    }
+
+    void setButtonsDisabled(){
+        for (int i=0; i<9; i++){
+            getButtons()[i].setEnabled(false);
+        }
+    }
+
+    void setButtonsEnabled(){
+        for (int i=0; i<9; i++){
+            getButtons()[i].setEnabled(true);
+        }
     }
 }
