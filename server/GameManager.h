@@ -17,7 +17,6 @@ private:
 
     void remove_game(Game* game);
 public:
-    bool games_exist();
     bool all_games_full();
     Game* get_free_game();
     Game* find_game_by_player(int player);
@@ -26,7 +25,6 @@ public:
 
     void execute_command(int player, const std::string& command);
     static std::vector<std::string> split(const std::string& str, const std::string& delim);
-    void broadcast(const std::string& msg);
 
     void multicast(std::vector<int> *receivers, const std::string &msg);
 

@@ -2,7 +2,6 @@
 // Created by mister_hz on 2021-01-09.
 //
 
-#include <unistd.h>
 #include "GameRunner.h"
 
 void GameRunner::run(Game* game, bool* stop, bool* everyone_voted) {
@@ -12,7 +11,6 @@ void GameRunner::run(Game* game, bool* stop, bool* everyone_voted) {
     if(*stop) {
         return;
     }
-//    game->reset_game();
     pthread_mutex_unlock(mutex);
 
     unsigned long time_started;

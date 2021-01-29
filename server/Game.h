@@ -35,7 +35,6 @@ private:
     const int * get_win_position();
     bool* everyone_voted;
 
-    static bool sort_votes(const std::pair<int, int> &a, const std::pair<int, int> &b);
 public:
     bool* kill_runner;
 
@@ -52,22 +51,22 @@ public:
     bool someone_won();
     char get_winner();
     int place(int position, char c);
-    bool is_player_here(int player);
+    bool has_player(int player);
     char get_team(int player);
     void reset_game();
     int process_vote(int player, int position);
     std::vector<int>* get_players();
-    char get_turn() const;
+
     void next_turn();
     bool is_cross_team_empty();
     bool is_circle_team_empty();
     void reconnect_team(char team);
     bool player_voted(int player);
-    void send_to_all(const std::string& msg);
+    void broadcast(const std::string& msg);
     int process_poll();
     bool end_of_round();
     void remove_player(int player);
-    void ready(char team);
+    void set_ready(char team);
     bool both_teams_ready() const;
     void run();
     void reconnect_team(const std::vector<int> *team);

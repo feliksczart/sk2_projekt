@@ -11,10 +11,7 @@
 class Game;
 
 class GameRunner {
-private:
 public:
-//    static void run(Game* game);
-
     static void run(Game*, bool*, bool*);
 };
 
