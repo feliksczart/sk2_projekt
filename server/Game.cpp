@@ -66,13 +66,13 @@ int Game::place(int position, char c) {
 
     if(turns_made >= 5 && someone_won()) {
         game_manager->multicast(get_players(), "winner " + std::string(1, get_winner()));
-        broadcast("placed " + std::to_string(position) + " " + std::string(1, c));
+//        broadcast("placed " + std::to_string(position) + " " + std::string(1, c));
 //        reset_game();
         result = 0;
     }
 
     if(end_of_round() && !someone_won()) {
-        game_manager->multicast(get_players(), "winner -"); //FIXME after winner - turn %char% msg is sent 2 times
+        game_manager->multicast(get_players(), "winner -");
         result = 0;
     }
     if(result > 0) {
@@ -118,8 +118,7 @@ void Game::reset_game() {
     turns_made = 0;
     *kill_runner = false;
     std::string m = "turn " + std::string(1, turn);
-    game_manager->multicast(&cross_team, m);
-    game_manager->multicast(&circle_team, m);
+    broadcast(m); //FIXME turn sent 2 times
     circle_ready = false;
     cross_ready = false;
 }

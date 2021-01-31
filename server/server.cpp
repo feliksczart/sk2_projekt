@@ -21,7 +21,6 @@ std::vector<int> clients;
 pollfd* poll_array;
 int server_socket_descriptor;
 GameManager* game_manager;
-pthread_mutex_t poll_array_mutex = PTHREAD_MUTEX_INITIALIZER;
 std::vector<std::pair<int, std::string>*> messages;
 int nc_mode = 1;
 
@@ -117,10 +116,8 @@ int init() {
     int serverPort = 1111;
     int bind_result;
     int listen_result;
-    int read_result;
     int reuse_addr_val = 1;
     int QUEUE_SIZE = 16;
-    char buf[5];
     struct sockaddr_in server_address{};
 
     signal(SIGPIPE, SIG_IGN);
