@@ -40,9 +40,9 @@ public class Game {
         }
         else if (args[0].equals("turn")) setTurn(args[1].toUpperCase());
         else if (args[0].equals("placed")) {
-            if (getFirstVote()){
+//            if (getFirstVote()){
                 setPlacedSymbol(Integer.parseInt(args[1]), args[2].toUpperCase());
-            }
+//            }
         }
         else if (args[0].equals("winner")) {
             if (args[1].equals("-")) setWinner("Draw");
