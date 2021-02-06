@@ -1,0 +1,38 @@
+ git rev: 765b95a9d17713a50dbee03b4d406d443330d653
+  
+  * [.] wyniki budowania na repozytorium w serwerze
+  * [ ] brak automatyzacji budowania w kliencie
+  * [.] server.cpp:28:5: warning: Memory allocated by malloc() should be deallocated by free(), not 'delete' 
+  * [?] dlaczego macie 'int main(int argc, char** argv);' w headerze?
+  * [ ] port serwera na sztywno w kodzie
+  * [?] serwer.cpp:136: rzutowanie na 'char*' - dlaczego potrzebne?
+  * [ ] ":106 - dlaczego tak?
+  * [ ] co robi główny wątek programu?
+  * [?] dlaczego nowe połączenia przyjmujecie w innym wątku?
+  * [!] brak synchonizacji między wątkami - add_connection ma dużo race condition z resztą kodu
+  * [.] all_games_full i get_free_game - zostawić tylko to drugie, po co to pierwsze?
+  * [?] macie da razy tablicę z deskryptorami - players (GameManager.cpp) i clients (w serwer.cpp)?
+  * [.] rzucacie błędami których nie łapiecie
+  * [.] wiadomości są, czy nie są, oddzielane przez '\n'? czym jest nc mode?
+  * [.] serwer.cpp:61 - strlen vs m.length()
+  * [?] serwer.cpp:63 - to usunie powtarzające się wiadomości, czy o to chodzi?
+  * [!] serwer.cpp:64 - to dla powtarzających się wiadomości usunie tylko pamięć pierwszej
+  * [!] serwer.cpp:63 - modyfikacja kolekcji w trakcie przejścia przez nią
+  * [ ] Game.cpp:41 - argh! ten const_cast jest tam niepotrzebny; po co on wam?
+  * [ ] dlaczego wskaźniki na pary w wektorze, zamiast po prostu pary?
+  * [!] czekacie na POLLOUT, co robicie jak wystąpi?
+  * [?] serwer.cpp:30 - po co?
+  * [!] poll z czasem 0 - dlaczego?
+  * [?] serwer.cpp:89 - co to robi i po co?
+  * [?] serwer.cpp:83 - sklejanie i dzielenie wiadomości, jak (nie) jest obsłużone?
+  * [?] GameManager.cpp:83 - jeśli wiadomość przyjdzie spóźniona i gracza już nie będzie w grze, to co?
+  * [?] GameRunner.cpp:11 - kiedy to się dzieje?
+  * [!] Game.cpp:275 - memleak
+  * [.] Game::reconnect_players - inicjalizujecie default_random_engine przed każdym użyciem zamiast raz na grę i mieszcie różne generator liczb losowych
+  * [!] Game::reconnect_players - memleak na players
+  * [!] GameRunner:24 - busy waiting
+  
+  * [?] czemu cztery identyczne pliki Client*.java?
+  * [!] stały port i IPk w kliencie
+
+  aktywne czekanie, brak prawidłowej synchronizacji między wątkami, poll czekający na niepotrzebne zdarzenia, koszmarne memleaki, IP serwera na stałe w kodzie klienta, nieobsługiwane sklejanie wiadomości (mniejszy problem w tej grze), brak systemu budowania klienta
